@@ -9,6 +9,7 @@ Options:
   --target <name>   Install target: all | universal | codex | claude | openclaw
                     all: install canonical skill/toolkit plus links for Codex, Claude Code, and OpenClaw
                     universal: install only the canonical Agent Skills layout under ~/.agents
+                    codex|claude|openclaw: install the canonical layout plus one native compatibility link
   --force           Overwrite existing installed skill/toolkit
   --skip-npm        Skip npm install / npm ci in the toolkit
   --skip-smoke      Skip npm run list smoke test even if STITCH_API_KEY is set

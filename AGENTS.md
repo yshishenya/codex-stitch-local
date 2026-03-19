@@ -1,20 +1,23 @@
 # codex-stitch-local
 
-> Cross-agent Stitch skill bundle for Codex, Claude Code, and OpenClaw.
-> Canonical repository: https://github.com/yshishenya/codex-stitch-local
+Cross-agent Stitch skill bundle for Codex, Claude Code, and OpenClaw.
 
-This repository contains a reusable skill and local toolkit for generating and iterating UI screens with the official `@google/stitch-sdk`.
+Repository:
 
-Core value:
+- https://github.com/yshishenya/codex-stitch-local
 
-- turn natural-language briefs into UI screens
-- iterate with edits and variants
-- save clean HTML and screenshots locally
-- reuse the same workflow across Codex, Claude Code, and OpenClaw
+## What this skill is for
 
-## Installation
+Use `stitch-design-local` when the task is:
 
-Canonical install:
+- design generation from a brief or mockup
+- UI prototyping from product context
+- prompt-to-HTML workflows
+- screen edits and visual iteration
+- design variants before implementation
+- local screenshots and Tailwind-friendly HTML exports
+
+## Install
 
 ```bash
 git clone https://github.com/yshishenya/codex-stitch-local.git
@@ -22,38 +25,32 @@ cd codex-stitch-local
 bash install.sh --target all
 ```
 
-Targeted installs:
+Canonical install layout:
 
-```bash
-bash install.sh --target codex
-bash install.sh --target claude
-bash install.sh --target openclaw
-bash install.sh --target universal
-```
+- skill: `~/.agents/skills/stitch-design-local`
+- toolkit: `~/.agents/stitch-starter`
+
+Native compatibility links:
+
+- Codex: `~/.codex/skills/stitch-design-local`
+- Claude Code: `~/.claude/skills/stitch-design-local`
+- OpenClaw: `~/.openclaw/skills/stitch-design-local`
 
 ## How to use
 
-- Use the skill when the task is UI generation, UI exploration, design variants, or iterative visual refinement.
-- Prefer explicit invocation if your client supports it.
-- Rewrite vague UI requests into structured design prompts before running Stitch.
-- Use the toolkit under `${STITCH_STARTER_ROOT:-$HOME/.agents/stitch-starter}`.
+- explicit invocation: `Use $stitch-design-local ...`
+- common jobs: generate a new screen, edit an existing screen, create variants, export local artifacts
+- toolkit root: `${STITCH_STARTER_ROOT:-$HOME/.agents/stitch-starter}`
 
-## Available skills
+## Skill
 
-<available_skills>
+- name: `stitch-design-local`
+- location: `skills/stitch-design-local`
+- install command: `bash install.sh --target all`
 
-<skill>
-<name>stitch-design-local</name>
-<description>Generate and refine local Stitch UI screens with the official @google/stitch-sdk. Use when the user wants desktop or mobile UI exploration, design variants, HTML exports, screenshot exports, or iterative screen edits from a brief, mockup, or product context.</description>
-<location>skills/stitch-design-local</location>
-<install>bash install.sh --target all</install>
-</skill>
+## Metadata files
 
-</available_skills>
-
-## Native platform notes
-
-- Codex: installs a compatibility link into `~/.codex/skills/stitch-design-local`
-- Claude Code: installs a compatibility link into `~/.claude/skills/stitch-design-local`
-- OpenClaw: installs a compatibility link into `~/.openclaw/skills/stitch-design-local`
-- Universal canonical skill path: `~/.agents/skills/stitch-design-local`
+- root discovery: [README.md](./README.md)
+- agent bundle: [skills/stitch-design-local/SKILL.md](./skills/stitch-design-local/SKILL.md)
+- Codex metadata: [skills/stitch-design-local/agents/openai.yaml](./skills/stitch-design-local/agents/openai.yaml)
+- Claude metadata: [.claude-plugin/plugin.json](./.claude-plugin/plugin.json)

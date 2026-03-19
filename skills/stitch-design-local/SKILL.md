@@ -1,13 +1,17 @@
 ---
 name: stitch-design-local
-description: Generate and refine local Stitch UI screens with the official @google/stitch-sdk. Use when the user wants desktop or mobile UI exploration, design variants, HTML exports, screenshot exports, or iterative screen edits from a brief, mockup, or product context.
-compatibility: Requires Node.js 22+, a configured STITCH_API_KEY, and the local stitch-starter toolkit installed by this repository.
-metadata: {"homepage":"https://github.com/yshishenya/codex-stitch-local","category":"design","platforms":"codex,claude-code,openclaw","install":"bash install.sh --target all","toolkit_root":"${STITCH_STARTER_ROOT:-$HOME/.agents/stitch-starter}"}
+description: Turn briefs, mockups, and product context into Stitch UI screens, design variants, Tailwind-friendly HTML, and screenshots. Use when the user wants to explore a new screen, edit an existing screen, compare visual directions, or save local design artifacts from natural-language input.
+homepage: "https://github.com/yshishenya/codex-stitch-local"
+category: "design"
+platforms: "codex, claude-code, openclaw"
+install: "bash install.sh --target all"
+toolkit_root: "${STITCH_STARTER_ROOT:-$HOME/.agents/stitch-starter}"
+compatibility: "Requires Node.js 22+, a configured STITCH_API_KEY, and the local stitch-starter toolkit installed by this repository."
 ---
 
 # Stitch Design Local
 
-Use this skill when the user wants to create or iterate UI through Stitch.
+Use this skill when the user wants to create a new screen, refine an existing one, generate design variants, or export local HTML and screenshots through Stitch.
 
 It uses the local toolkit at `${STITCH_STARTER_ROOT:-$HOME/.agents/stitch-starter}` instead of a Stitch MCP tool.
 
@@ -44,6 +48,13 @@ It uses the local toolkit at `${STITCH_STARTER_ROOT:-$HOME/.agents/stitch-starte
 5. If a screen is already close, prefer `edit` over full regeneration.
 6. Always tell the user where the resulting files were saved.
 7. Never print or expose `STITCH_API_KEY` or `.env` contents.
+
+## What good output looks like
+
+- the brief is rewritten into a stronger design prompt
+- the right Stitch workflow is chosen: generate, edit, or variants
+- the command completes and saves artifacts locally
+- the response includes project id, screen id, output folder, and what to do next
 
 ## Prompt shaping
 

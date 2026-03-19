@@ -1,18 +1,21 @@
 {
   "name": "stitch-design-local",
-  "description": "Turn natural-language product briefs into UI screens, variants, HTML, and screenshots with Stitch across Codex, Claude Code, and OpenClaw.",
-  "version": "1.0.4",
+  "description": "Turn product briefs into Stitch UI screens, variants, Tailwind-friendly HTML, and screenshots. Works across Codex, Claude Code, and OpenClaw.",
+  "version": "1.1.0",
   "author": {
     "name": "yshishenya",
     "url": "https://github.com/yshishenya"
   },
   "repository": "https://github.com/yshishenya/codex-stitch-local",
   "homepage": "https://github.com/yshishenya/codex-stitch-local",
-  "license": "UNLICENSED",
+  "license": "Apache-2.0",
   "keywords": [
     "stitch",
+    "stitch-sdk",
     "design",
     "ui",
+    "prompt-to-html",
+    "tailwind",
     "claude-code",
     "codex",
     "openclaw",

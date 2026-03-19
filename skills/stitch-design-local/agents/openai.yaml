@@ -1,8 +1,8 @@
 interface:
   display_name: "Stitch Design Local"
-  short_description: "Turn prompts into UI screens, variants, HTML, and screenshots"
+  short_description: "Turn product briefs into Stitch screens, variants, Tailwind HTML, and screenshots"
   brand_color: "#1C6BFF"
-  default_prompt: "Use $stitch-design-local to turn my brief into a UI screen, explore variants, and save the HTML/screenshots locally."
+  default_prompt: "Use $stitch-design-local to turn my brief and product context into a Stitch screen, edit or explore variants, and save Tailwind-ready HTML and screenshots locally."
 
 policy:
   allow_implicit_invocation: true

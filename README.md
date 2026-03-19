@@ -5,69 +5,32 @@
 [![Codex](https://img.shields.io/badge/OpenAI-Codex-10A37F)](https://developers.openai.com/codex/skills)
 [![Claude Code](https://img.shields.io/badge/Anthropic-Claude%20Code-D97706)](https://code.claude.com/docs/en/slash-commands)
 [![OpenClaw](https://img.shields.io/badge/OpenClaw-ClawHub-2563EB)](https://docs.openclaw.ai/tools/clawhub)
+[![License](https://img.shields.io/badge/license-Apache%202.0-blue)](./LICENSE)
 
+> Turn product briefs into UI screens, variants, HTML, and screenshots in minutes.
+>
 > Now design can be programmed.
 
-`codex-stitch-local` turns Google's Stitch SDK into a ready-to-use agent skill for Codex, Claude Code, and OpenClaw.
+`brief -> stitch-design-local -> local HTML + screenshots`
 
-What it gives you:
-
-- prompt-to-UI generation from natural language
-- fast design iteration with edits and variants
-- local HTML, screenshots, and run artifacts
-- one install flow for multiple agent clients
-
-![Generated Stitch dashboard demo](./assets/demo/stitch-dashboard-demo.png)
-
-Работает как portable skill bundle для:
+Portable Stitch skill bundle for:
 
 - Codex
 - Claude Code
 - OpenClaw
-- других клиентов, которые понимают `SKILL.md` или `AGENTS.md`
+- other clients that understand `SKILL.md` or `AGENTS.md`
 
-Core files:
+![Generated Stitch dashboard demo](./assets/demo/stitch-dashboard-demo.png)
 
-- [README.md](./README.md)
-- [AGENTS.md](./AGENTS.md)
-- [SKILL.md](./skills/stitch-design-local/SKILL.md)
-- [install.sh](./install.sh)
-- [stitch-starter](./stitch-starter)
+Generated locally from a natural-language prompt with the bundled Stitch workflow.
 
-<details open>
-<summary><strong>English</strong></summary>
+Try this first:
 
-## Why this exists
+```text
+Use $stitch-design-local to generate a premium desktop analytics dashboard for a product team, with a left sidebar, KPI cards, trend charts, and clean Tailwind-ready HTML.
+```
 
-The Stitch SDK is powerful, but raw SDK access is not yet a smooth day-to-day workflow for most teams.
-
-This repo solves that gap:
-
-- it packages Stitch as a reusable agent skill
-- it gives you a local toolkit with simple commands
-- it makes the setup portable across multiple agent clients
-- it saves outputs locally so design exploration becomes part of the real dev workflow
-
-## What it is
-
-This repository contains:
-
-- one canonical skill: `stitch-design-local`
-- one shared local toolkit: `stitch-starter`
-- one installer for Codex, Claude Code, and OpenClaw
-
-Canonical install paths:
-
-- skill: `${AGENT_SKILLS_HOME:-$HOME/.agents}/skills/stitch-design-local`
-- toolkit: `${STITCH_STARTER_ROOT:-$HOME/.agents/stitch-starter}`
-
-Compatibility links can also be created for:
-
-- `${CODEX_HOME:-$HOME/.codex}/skills/stitch-design-local`
-- `${CLAUDE_HOME:-$HOME/.claude}/skills/stitch-design-local`
-- `${OPENCLAW_HOME:-$HOME/.openclaw}/skills/stitch-design-local`
-
-## Quick start
+## 60-second setup
 
 ```bash
 git clone https://github.com/yshishenya/codex-stitch-local.git
@@ -83,37 +46,58 @@ ${STITCH_STARTER_ROOT:-$HOME/.agents/stitch-starter}/.env
 
 Then restart your client.
 
-## Install targets
+<details open>
+<summary><strong>English</strong></summary>
 
-All clients:
+## Why this exists
 
-```bash
-bash install.sh --target all
-```
+The Stitch SDK is powerful, but most teams still need a repeatable workflow around it.
 
-Only canonical Agent Skills layout:
+This repo removes the friction between:
 
-```bash
-bash install.sh --target universal
-```
+- a rough product brief
+- a useful UI direction
+- local artifacts the team can review immediately
 
-Only one client:
+It packages Stitch as a reusable agent skill, installs a local toolkit, and saves HTML, screenshots, and run metadata on your machine instead of behind another hosted workflow.
 
-```bash
-bash install.sh --target codex
-bash install.sh --target claude
-bash install.sh --target openclaw
-```
+## Who this is for
 
-Useful flags:
+- product engineers who want to explore UI before writing frontend code
+- design engineers who want faster prompt-to-HTML loops
+- founders who need strong first-pass screens from natural-language briefs
+- AI-agent builders who want a ready-to-run Stitch workflow across multiple clients
 
-```bash
-bash install.sh --target all --force
-bash install.sh --target all --skip-npm
-bash install.sh --target all --skip-smoke
-```
+## What you get
 
-## Use
+- one canonical skill: `stitch-design-local`
+- one shared local toolkit: `stitch-starter`
+- one installer for Codex, Claude Code, and OpenClaw
+- local HTML, screenshots, and run artifacts
+- one canonical setup under `~/.agents` with compatibility links for native clients
+
+Canonical install paths:
+
+- skill: `${AGENT_SKILLS_HOME:-$HOME/.agents}/skills/stitch-design-local`
+- toolkit: `${STITCH_STARTER_ROOT:-$HOME/.agents/stitch-starter}`
+
+Optional compatibility links:
+
+- `${CODEX_HOME:-$HOME/.codex}/skills/stitch-design-local`
+- `${CLAUDE_HOME:-$HOME/.claude}/skills/stitch-design-local`
+- `${OPENCLAW_HOME:-$HOME/.openclaw}/skills/stitch-design-local`
+
+## Why not just use the raw SDK?
+
+The raw Stitch SDK is flexible.
+
+This repo is for when you want:
+
+- a ready-to-run local workflow instead of wiring the SDK yourself
+- portable skill packaging across multiple agent clients
+- HTML, screenshots, and run artifacts saved locally by default
+
+## How to use it
 
 In Codex:
 
@@ -143,22 +127,21 @@ npm run edit -- --prompt "Make it more premium and add stronger typography"
 npm run variants -- --prompt "Explore three different visual directions" --variant-count 3
 ```
 
-## Example outcomes
+## Results you can get fast
 
-What people can actually do with this:
+- explore 3 landing page directions before writing code
+- turn a PM brief into HTML and screenshots for review
+- iterate on a dashboard without opening Figma
+- generate local artifacts a team can review without adopting a new hosted service
 
-- generate three landing page directions before writing frontend code
-- turn a rough dashboard brief into HTML and screenshot artifacts
-- iterate on an internal tool UI from real product context instead of blank-canvas design work
-- use Stitch output as a fast bridge between product thinking and implementation
-
-Ready-to-use prompts:
+Ready-to-use prompt ideas:
 
 - [examples/prompt-recipes.md](./examples/prompt-recipes.md)
 
-If you want to record a short demo or launch video:
+If you want to record a demo or launch video:
 
 - [docs/demo-script.md](./docs/demo-script.md)
+- [docs/launch-kit.md](./docs/launch-kit.md)
 
 ## What gets saved
 
@@ -182,26 +165,20 @@ Latest single-screen pointer:
 ${STITCH_STARTER_ROOT:-$HOME/.agents/stitch-starter}/runs/latest-screen.json
 ```
 
-## Why this repo is discoverable
+## Discovery and trust
 
-- strong `description` in `SKILL.md`
-- root-level [AGENTS.md](./AGENTS.md)
-- Codex metadata in [agents/openai.yaml](./skills/stitch-design-local/agents/openai.yaml)
-- Claude plugin manifest in [`.claude-plugin/plugin.json`](./.claude-plugin/plugin.json)
-- GitHub topics and release tags
+- built on Google's [Stitch SDK](https://github.com/google-labs-code/stitch-sdk)
+- exports clean HTML and screenshots programmatically
+- works across Codex, Claude Code, and OpenClaw
+- includes [AGENTS.md](./AGENTS.md), [SKILL.md](./skills/stitch-design-local/SKILL.md), and agent-specific manifests
+- licensed under [Apache-2.0](./LICENSE)
 
-## Important notes
-
-- do not commit `.env`
-- do not expose `STITCH_API_KEY`
-- generated `runs/` may contain internal UI concepts
-- current repository state is `UNLICENSED`
-
-## More
+## Contributing
 
 - contribution guide: [CONTRIBUTING.md](./CONTRIBUTING.md)
 - toolkit details: [stitch-starter/README.md](./stitch-starter/README.md)
-- launch and messaging kit: [docs/launch-kit.md](./docs/launch-kit.md)
+
+Install it, generate one screen, and ship the best direction into code.
 
 </details>
 
@@ -210,35 +187,55 @@ ${STITCH_STARTER_ROOT:-$HOME/.agents/stitch-starter}/runs/latest-screen.json
 
 ## Зачем это нужно
 
-Сам Stitch SDK мощный, но в сыром виде это еще не очень удобный ежедневный workflow для команды.
+Stitch SDK мощный, но большинству команд нужен не просто SDK, а готовый workflow вокруг него.
 
-Этот репозиторий закрывает именно этот разрыв:
+Этот репозиторий убирает трение между:
 
-- упаковывает Stitch в reusable skill для агента
-- дает простой локальный toolkit с понятными командами
-- делает setup переносимым между несколькими агентными клиентами
-- сохраняет HTML, скриншоты и run artifacts локально, чтобы дизайн стал частью реального dev-процесса
+- сырым продуктовым брифом
+- первым сильным UI-направлением
+- локальными артефактами, которые можно сразу показать команде
 
-## Что это
+Он упаковывает Stitch в reusable skill для агента, ставит локальный toolkit и сохраняет HTML, скриншоты и run metadata на вашей машине.
 
-В репозитории есть:
+## Для кого это
+
+- product engineers, которые хотят исследовать UI до написания фронтенда
+- design engineers, которым нужен быстрый prompt-to-HTML цикл
+- founders, которым нужны сильные первые экраны из текстового брифа
+- builders агентных workflow, которым нужен готовый Stitch setup для нескольких клиентов
+
+## Что вы получаете
 
 - один канонический skill: `stitch-design-local`
-- один общий локальный toolkit: `stitch-starter`
+- один локальный toolkit: `stitch-starter`
 - один installer для Codex, Claude Code и OpenClaw
+- локальные HTML, скриншоты и run artifacts
+- каноническую установку в `~/.agents` и compatibility links для нативных клиентов
 
-Канонические пути установки:
+Канонические пути:
 
 - skill: `${AGENT_SKILLS_HOME:-$HOME/.agents}/skills/stitch-design-local`
 - toolkit: `${STITCH_STARTER_ROOT:-$HOME/.agents/stitch-starter}`
 
-При необходимости installer создает compatibility links для:
+Compatibility links:
 
 - `${CODEX_HOME:-$HOME/.codex}/skills/stitch-design-local`
 - `${CLAUDE_HOME:-$HOME/.claude}/skills/stitch-design-local`
 - `${OPENCLAW_HOME:-$HOME/.openclaw}/skills/stitch-design-local`
 
-## Быстрый старт
+## Почему не просто raw SDK
+
+Raw Stitch SDK гибкий.
+
+Этот репозиторий нужен, когда вы хотите:
+
+- готовый локальный workflow, а не собирать обвязку самому
+- переносимую skill-упаковку для нескольких agent clients
+- локальные HTML, скриншоты и run artifacts по умолчанию
+
+## Как использовать
+
+Быстрый старт:
 
 ```bash
 git clone https://github.com/yshishenya/codex-stitch-local.git
@@ -252,39 +249,7 @@ bash install.sh --target all
 ${STITCH_STARTER_ROOT:-$HOME/.agents/stitch-starter}/.env
 ```
 
-И перезапустите свой клиент.
-
-## Таргеты установки
-
-Для всех клиентов:
-
-```bash
-bash install.sh --target all
-```
-
-Только канонический Agent Skills layout:
-
-```bash
-bash install.sh --target universal
-```
-
-Только под один клиент:
-
-```bash
-bash install.sh --target codex
-bash install.sh --target claude
-bash install.sh --target openclaw
-```
-
-Полезные флаги:
-
-```bash
-bash install.sh --target all --force
-bash install.sh --target all --skip-npm
-bash install.sh --target all --skip-smoke
-```
-
-## Использование
+И перезапустите клиент.
 
 В Codex:
 
@@ -314,22 +279,21 @@ npm run edit -- --prompt "Make it more premium and add stronger typography"
 npm run variants -- --prompt "Explore three different visual directions" --variant-count 3
 ```
 
-## Примеры результата
+## Что можно сделать быстро
 
-Что с этим реально можно делать:
+- исследовать 3 направления лендинга до написания кода
+- превратить PM brief в HTML и скриншоты для ревью
+- итерировать dashboard без Figma
+- получать локальные артефакты, которые команда может смотреть без нового hosted-сервиса
 
-- быстро генерировать три направления лендинга до написания фронтенда
-- превращать сырой бриф по dashboard в HTML и скриншоты
-- итерировать UI внутреннего инструмента из продуктового контекста, а не с пустого листа
-- использовать Stitch как быстрый мост между product thinking и implementation
-
-Готовые prompt recipes:
+Готовые prompt ideas:
 
 - [examples/prompt-recipes.md](./examples/prompt-recipes.md)
 
-Если хочешь записать короткое demo/video:
+Для demo и запуска:
 
 - [docs/demo-script.md](./docs/demo-script.md)
+- [docs/launch-kit.md](./docs/launch-kit.md)
 
 ## Что сохраняется
 
@@ -339,7 +303,7 @@ npm run variants -- --prompt "Explore three different visual directions" --varia
 ${STITCH_STARTER_ROOT:-$HOME/.agents/stitch-starter}/runs/<timestamp>-<operation>-<slug>/
 ```
 
-Обычно там будут:
+Обычно внутри:
 
 - `result.json` или `variants.json`
 - `screen.html`
@@ -347,31 +311,25 @@ ${STITCH_STARTER_ROOT:-$HOME/.agents/stitch-starter}/runs/<timestamp>-<operation
 - `html-url.txt`
 - `image-url.txt`
 
-Файл с указателем на последний single-screen run:
+Указатель на последний single-screen run:
 
 ```text
 ${STITCH_STARTER_ROOT:-$HOME/.agents/stitch-starter}/runs/latest-screen.json
 ```
 
-## Почему репозиторий хорошо находится
+## Доверие и discoverability
 
-- сильный `description` в `SKILL.md`
-- root-level [AGENTS.md](./AGENTS.md)
-- метаданные для Codex в [agents/openai.yaml](./skills/stitch-design-local/agents/openai.yaml)
-- Claude plugin manifest в [`.claude-plugin/plugin.json`](./.claude-plugin/plugin.json)
-- GitHub topics и release tags
+- построен на [Google Stitch SDK](https://github.com/google-labs-code/stitch-sdk)
+- программно экспортирует HTML и screenshots
+- работает в Codex, Claude Code и OpenClaw
+- содержит [AGENTS.md](./AGENTS.md), [SKILL.md](./skills/stitch-design-local/SKILL.md) и platform manifests
+- лицензия: [Apache-2.0](./LICENSE)
 
-## Важно
+## Контрибьютинг
 
-- не коммитьте `.env`
-- не светите `STITCH_API_KEY`
-- папка `runs/` может содержать внутренние UI-концепты
-- сейчас репозиторий помечен как `UNLICENSED`
+- гайд: [CONTRIBUTING.md](./CONTRIBUTING.md)
+- toolkit details: [stitch-starter/README.md](./stitch-starter/README.md)
 
-## Еще
-
-- guide по вкладу: [CONTRIBUTING.md](./CONTRIBUTING.md)
-- детали toolkit-а: [stitch-starter/README.md](./stitch-starter/README.md)
-- launch и messaging kit: [docs/launch-kit.md](./docs/launch-kit.md)
+Установите, сгенерируйте один экран и протащите лучший вариант в код.
 
 </details>
