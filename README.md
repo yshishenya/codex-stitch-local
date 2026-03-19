@@ -9,13 +9,11 @@
 [![Gemini CLI](https://img.shields.io/badge/Gemini%20CLI-extension-4285F4)](https://google-gemini.github.io/gemini-cli/docs/extensions/)
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue)](./LICENSE)
 
-> Turn product briefs into UI screens, variants, HTML, and screenshots in minutes.
+> Turn product briefs into UI directions, Tailwind-friendly HTML, and screenshots in minutes.
 >
-> Now design can be programmed.
+> Prompt -> UI direction -> local HTML + screenshots.
 
-`brief -> StitchFlow -> local HTML + screenshots`
-
-StitchFlow is a portable Stitch skill bundle for:
+StitchFlow packages Google Stitch into a **portable local workflow** for:
 
 - Codex
 - Claude Code
@@ -24,14 +22,28 @@ StitchFlow is a portable Stitch skill bundle for:
 - Gemini CLI
 - other clients that understand `SKILL.md` or `AGENTS.md`
 
+Why people star and keep it:
+
+- generate usable UI directions from plain-language briefs
+- save local HTML and screenshots your team can review immediately
+- reuse one workflow across multiple coding-agent clients
+
 ![Generated Stitch dashboard demo](./assets/demo/stitch-dashboard-demo.png)
 
 Generated locally from a natural-language prompt with the bundled Stitch workflow.
 
-Try this first:
+## Try these prompts first
 
 ```text
 Use $stitchflow to generate a premium desktop analytics dashboard for a product team, with a left sidebar, KPI cards, trend charts, and clean Tailwind-ready HTML.
+```
+
+```text
+Use $stitchflow to explore three mobile-first checkout directions for a modern ecommerce app, with sticky CTA, compact order summary, and polished spacing.
+```
+
+```text
+Use $stitchflow to create a SaaS landing page for an enterprise design tool, with strong typography, product shots, pricing cards, and a credible B2B feel.
 ```
 
 Compatibility note:
@@ -57,6 +69,21 @@ ${STITCH_STARTER_ROOT:-$HOME/.agents/stitch-starter}/.env
 ```
 
 Then restart your client.
+
+
+## Who this is for
+
+- product and design engineers who want faster UI exploration before frontend work
+- agent builders who want one reusable design workflow across multiple clients
+- teams that need local artifacts instead of another hosted black box
+
+## What you get
+
+- one canonical skill: `stitchflow`
+- one shared local toolkit: `stitch-starter`
+- local HTML, screenshots, and run artifacts
+- variants and edits from natural-language prompts
+- installable packaging across multiple agent clients
 
 <details open>
 <summary><strong>English</strong></summary>
@@ -180,6 +207,8 @@ If you want to record a demo or launch video:
 - [docs/demo-script.md](./docs/demo-script.md)
 - [docs/launch-kit.md](./docs/launch-kit.md)
 - [docs/catalog-submissions.md](./docs/catalog-submissions.md)
+- [docs/launch-system.md](./docs/launch-system.md)
+- [docs/community-posts.md](./docs/community-posts.md)
 
 ## What gets saved
 
