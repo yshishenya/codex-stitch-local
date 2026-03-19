@@ -1,5 +1,7 @@
 ---
 name: stitchflow
+slug: stitchflow
+version: 1.3.0
 description: Turn briefs, mockups, and product context into Stitch UI screens, design variants, Tailwind-friendly HTML, and screenshots. Use when the user wants to explore a new screen, edit an existing screen, compare visual directions, or save local design artifacts from natural-language input.
 homepage: "https://github.com/yshishenya/stitchflow"
 category: "design"

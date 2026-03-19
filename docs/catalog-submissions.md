@@ -11,6 +11,135 @@ Maximize discoverability for `StitchFlow` across:
 - community discovery catalogs
 - high-signal GitHub collections with existing traffic
 
+## Current status
+
+Snapshot as of 2026-03-19:
+
+- ClawHub: live for `stitchflow` and `stitch-design-local`
+- askill: live at `https://askill.sh/skills/gh/yshishenya/stitchflow/@stitchflow` and `https://askill.sh/skills/gh/yshishenya/stitchflow/@stitch-design-local`
+- `awesome-llm-skills`: PR opened at `https://github.com/Prat011/awesome-llm-skills/pull/51`
+- `awesome-claude-skills`: PR opened at `https://github.com/ComposioHQ/awesome-claude-skills/pull/429`
+- `github/awesome-copilot`: not submitted because their contribution policy rejects non-GitHub and non-Microsoft external plugins from remote sources
+
+## Popular surfaces by ecosystem
+
+Use this section to prioritize channels by actual distribution power, not by how often they get mentioned on X.
+
+### Claude ecosystem
+
+1. `anthropics/skills`
+   Why it matters:
+   - official Anthropic skills repository
+   - installable in Claude Code via `/plugin marketplace add anthropics/skills`
+   - very large audience and trust
+   Popularity:
+   - GitHub stars: `97000`
+   Fit for StitchFlow:
+   - high strategic value
+   - not an obvious open external listing surface; treat more like a partner or reference channel than an easy community directory
+
+2. Claude Skills Directory at `claude.com/connectors`
+   Why it matters:
+   - first-party discovery surface mentioned by Anthropic support docs
+   - users can browse partner skills and download linked repositories
+   Fit for StitchFlow:
+   - huge trust surface
+   - likely requires stronger partner-style positioning and MCP connector relevance
+
+3. `ComposioHQ/awesome-claude-skills`
+   Why it matters:
+   - largest community Claude skills list we found
+   - PR-friendly
+   Popularity:
+   - GitHub stars: `45779`
+   Fit for StitchFlow:
+   - very strong target
+   - good for backlink, discovery, and social proof
+
+4. `mhattingpete/claude-skills-marketplace`
+   Why it matters:
+   - actual Claude Code marketplace-style repo with install flow
+   Popularity:
+   - GitHub stars: `475`
+   Fit for StitchFlow:
+   - relevant but much smaller than the two lists above
+
+### GitHub Copilot ecosystem
+
+1. `github/awesome-copilot`
+   Why it matters:
+   - default high-traffic community marketplace for Copilot
+   - officially referenced by GitHub docs as a marketplace example
+   Popularity:
+   - GitHub stars: `25931`
+   Fit for StitchFlow:
+   - huge distribution potential
+   - current blocker is contribution policy around remote external plugins
+
+2. `github/copilot-plugins`
+   Why it matters:
+   - official GitHub plugin collection
+   - referenced in GitHub docs as a marketplace example
+   Popularity:
+   - GitHub stars: `141`
+   Fit for StitchFlow:
+   - authoritative but likely curated and harder to enter than community catalogs
+
+### Codex and cross-agent ecosystem
+
+1. `askill`
+   Why it matters:
+   - purpose-built cross-agent registry for `SKILL.md`
+   - explicit support for Codex, Claude Code, OpenClaw, Cursor, and many more agents
+   Fit for StitchFlow:
+   - excellent product fit
+   - popularity is still early, but it is one of the cleanest universal registries for our packaging format
+
+2. `Prat011/awesome-llm-skills`
+   Why it matters:
+   - broad multi-agent list, not tied to one vendor
+   - strong fit for Codex, Claude Code, and Gemini CLI all at once
+   Popularity:
+   - GitHub stars: `1010`
+   Fit for StitchFlow:
+   - already in progress via PR
+
+3. `huggingface/skills`
+   Why it matters:
+   - multi-agent skills repo with explicit support for Claude Code, Codex, Gemini CLI, and Cursor
+   Popularity:
+   - GitHub stars: `9333`
+   Fit for StitchFlow:
+   - strategically important
+   - more like an ecosystem repo than a generic directory, so submission may require stronger platform fit and packaging alignment
+
+### Gemini CLI ecosystem
+
+Important constraint:
+
+- Gemini CLI has official extension installation from GitHub URL or local path, but we did not find a first-party public extension registry.
+
+Implication:
+
+- For Gemini, the best discovery channels are cross-agent registries and GitHub lists, not a native marketplace.
+
+### OpenClaw ecosystem
+
+1. ClawHub
+   Why it matters:
+   - official public OpenClaw registry
+   - native install and discovery path
+   Fit for StitchFlow:
+   - already live
+
+## Near-term priority order
+
+1. `ComposioHQ/awesome-claude-skills`
+2. keep `awesome-llm-skills` PR moving
+3. deepen askill presence and canonical publish flow
+4. explore whether `huggingface/skills` is open to a cross-agent design workflow like StitchFlow
+5. revisit Copilot only if we can satisfy marketplace policy without a likely rejection
+
 ## Canonical metadata
 
 Use these values everywhere unless a catalog forces a different format.
