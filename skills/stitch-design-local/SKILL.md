@@ -7,9 +7,9 @@ metadata: {"homepage":"https://github.com/yshishenya/codex-stitch-local","catego
 
 # Stitch Design Local
 
-Use this skill when the user wants to design or iterate UI through Stitch.
+Use this skill when the user wants to create or iterate UI through Stitch.
 
-This skill is adapted from the official Stitch workflow patterns, but it uses the local toolkit at `${STITCH_STARTER_ROOT:-$HOME/.agents/stitch-starter}` instead of a Stitch MCP tool.
+It uses the local toolkit at `${STITCH_STARTER_ROOT:-$HOME/.agents/stitch-starter}` instead of a Stitch MCP tool.
 
 ## Local setup
 
@@ -73,15 +73,15 @@ Visual direction:
 - component style
 ```
 
-## Output expectations
+## After running Stitch
 
-After running Stitch, report:
+Report:
 
 - the command used at a high level, not the secret env
 - the project and screen ids
 - the output folder under `${STITCH_STARTER_ROOT:-$HOME/.agents/stitch-starter}/runs`
 - the HTML and image artifact paths if they were downloaded
-- a brief design assessment and the best next step
+- a short design assessment and the best next step
 
 ## References
 
