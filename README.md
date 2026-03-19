@@ -2,20 +2,26 @@
 
 [![Node.js](https://img.shields.io/badge/node-%3E%3D22-339933?logo=node.js&logoColor=white)](https://nodejs.org/)
 [![npm](https://img.shields.io/badge/npm-supported-CB3837?logo=npm&logoColor=white)](https://www.npmjs.com/)
-[![Skill](https://img.shields.io/badge/Codex-skill-1C6BFF)](./skills/stitch-design-local/SKILL.md)
-[![License](https://img.shields.io/badge/license-not%20specified-lightgrey)](#license)
+[![Agent Skills](https://img.shields.io/badge/format-Agent%20Skills-7B61FF)](https://agentskills.io)
+[![Codex](https://img.shields.io/badge/OpenAI-Codex-10A37F)](https://developers.openai.com/codex/skills)
+[![Claude Code](https://img.shields.io/badge/Anthropic-Claude%20Code-D97706)](https://code.claude.com/docs/en/slash-commands)
+[![OpenClaw](https://img.shields.io/badge/OpenClaw-ClawHub-2563EB)](https://docs.openclaw.ai/tools/clawhub)
 
-Portable local Stitch setup for Codex:
+Cross-agent Stitch skill bundle for local UI generation and iteration with the official `@google/stitch-sdk`.
 
-- a Codex skill in [`skills/stitch-design-local`](./skills/stitch-design-local)
-- a local toolkit in [`stitch-starter`](./stitch-starter)
-- a one-command installer in [`install.sh`](./install.sh)
+This repository is designed to work across:
 
-Портативная локальная сборка Stitch для Codex:
+- Codex
+- Claude Code
+- OpenClaw
+- any other client that can consume `SKILL.md` or `AGENTS.md`
 
-- skill для Codex в [`skills/stitch-design-local`](./skills/stitch-design-local)
-- локальный toolkit в [`stitch-starter`](./stitch-starter)
-- установка одной командой через [`install.sh`](./install.sh)
+Этот репозиторий сделан как универсальный bundle для:
+
+- Codex
+- Claude Code
+- OpenClaw
+- и других клиентов, которые понимают `SKILL.md` или `AGENTS.md`
 
 ## Table Of Contents
 
@@ -27,29 +33,24 @@ Portable local Stitch setup for Codex:
 
 ### Overview
 
-`codex-stitch-local` packages everything needed to run a local Stitch-based design workflow with Codex on any server without machine-specific paths.
+`codex-stitch-local` packages a reusable `stitch-design-local` skill plus a local runtime toolkit called `stitch-starter`.
 
-It solves a practical problem: the original setup worked only on one machine because the skill referenced hardcoded home-directory paths. This repository makes the setup portable by:
+The main goal is portability:
 
-- shipping the Codex skill and the runtime toolkit together
-- installing into `${CODEX_HOME:-$HOME/.codex}`
-- preserving local secrets during reinstall with `--force`
-- keeping generated runs and secrets out of Git
+- one canonical skill source
+- one shared toolkit location
+- native compatibility for Codex, Claude Code, and OpenClaw
+- no hardcoded machine-specific home paths
 
-### Who This Is For
+This repository uses the open `Agent Skills` model and adds thin compatibility layers for each client ecosystem.
 
-Use this repository if you want to:
-
-- install the `stitch-design-local` skill on another machine
-- generate and iterate UI screens via the official `@google/stitch-sdk`
-- keep HTML and screenshot artifacts locally
-- make the setup reproducible for teammates or AI agents
-
-### Repository Layout
+### What Is Included
 
 ```text
 codex-stitch-local/
+├── AGENTS.md
 ├── install.sh
+├── .claude-plugin/plugin.json
 ├── skills/
 │   └── stitch-design-local/
 │       ├── SKILL.md
@@ -63,100 +64,194 @@ codex-stitch-local/
     └── README.md
 ```
 
+### Compatibility Model
+
+The repository is structured around a single canonical skill and a single shared toolkit:
+
+- canonical skill install path: `${AGENT_SKILLS_HOME:-$HOME/.agents}/skills/stitch-design-local`
+- canonical toolkit install path: `${STITCH_STARTER_ROOT:-$HOME/.agents/stitch-starter}`
+
+Then `install.sh` creates native compatibility links for:
+
+- Codex: `${CODEX_HOME:-$HOME/.codex}/skills/stitch-design-local`
+- Claude Code: `${CLAUDE_HOME:-$HOME/.claude}/skills/stitch-design-local`
+- OpenClaw: `${OPENCLAW_HOME:-$HOME/.openclaw}/skills/stitch-design-local`
+
+This gives you one maintained source of truth instead of separate per-client copies.
+
 ### Requirements
 
 - Linux or macOS shell environment
 - Node.js `22+`
 - npm
-- Codex with skill loading enabled
 - a valid `STITCH_API_KEY`
+- one of: Codex, Claude Code, OpenClaw, or another agent that can read the skill
 
 ### Quick Start
-
-Clone the repository and run the installer:
 
 ```bash
 git clone https://github.com/yshishenya/codex-stitch-local.git
 cd codex-stitch-local
-bash install.sh
+bash install.sh --target all
 ```
 
-The installer will:
+What this does:
 
-1. Copy the skill into `${CODEX_HOME:-$HOME/.codex}/skills/stitch-design-local`
-2. Copy the toolkit into `${CODEX_HOME:-$HOME/.codex}/stitch-starter`
-3. Create `.env` from `.env.example` if needed
-4. Install Node dependencies
-5. Run a smoke test with `npm run list` if `STITCH_API_KEY` is already configured
+1. Installs the canonical skill into `~/.agents/skills/stitch-design-local`
+2. Installs the toolkit into `~/.agents/stitch-starter`
+3. Creates native compatibility links for Codex, Claude Code, and OpenClaw
+4. Creates `.env` from `.env.example` if needed
+5. Runs `npm ci` or `npm install`
+6. Runs `npm run list` if `STITCH_API_KEY` is already configured
 
-After installation:
+### Installation Targets
 
-1. Add `STITCH_API_KEY` to `${CODEX_HOME:-$HOME/.codex}/stitch-starter/.env` if it is empty
-2. Restart Codex so the new skill is loaded
-3. Use the skill or toolkit commands
-
-### Installation Options
+Install for every supported client:
 
 ```bash
-bash install.sh --force
-bash install.sh --skip-npm
-bash install.sh --skip-smoke
+bash install.sh --target all
 ```
 
-Option behavior:
+Install only the canonical Agent Skills layout:
 
-- `--force`: overwrite an existing installation while preserving the current toolkit `.env`
-- `--skip-npm`: copy files without installing dependencies
-- `--skip-smoke`: skip `npm run list` even if an API key is present
+```bash
+bash install.sh --target universal
+```
 
-### How To Use
+Install for Codex only:
 
-#### In Codex
+```bash
+bash install.sh --target codex
+```
 
-Ask Codex to use the skill explicitly:
+Install for Claude Code only:
+
+```bash
+bash install.sh --target claude
+```
+
+Install for OpenClaw only:
+
+```bash
+bash install.sh --target openclaw
+```
+
+Other useful flags:
+
+```bash
+bash install.sh --target all --force
+bash install.sh --target all --skip-npm
+bash install.sh --target all --skip-smoke
+```
+
+### Platform-Specific Usage
+
+#### Codex
+
+Official references:
+
+- OpenAI Codex Skills: https://developers.openai.com/codex/skills
+- OpenAI skills catalog: https://github.com/openai/skills
+
+Install:
+
+```bash
+bash install.sh --target codex
+```
+
+Use:
 
 ```text
 Use $stitch-design-local to generate a premium desktop dashboard for an internal analytics product.
 ```
 
-Typical skill flow:
+Codex-specific notes:
 
-1. Codex rewrites the design brief into a stronger Stitch prompt
-2. Codex runs the local toolkit from `${CODEX_HOME:-$HOME/.codex}/stitch-starter`
-3. Stitch returns a project and screen
-4. HTML and screenshot artifacts are saved under `runs/`
+- the skill includes `agents/openai.yaml` for better Codex UI metadata
+- the trigger quality depends heavily on the `description` field in `SKILL.md`
+- repo-local discovery in Codex today centers on `.agents/skills`
 
-#### From The CLI
+#### Claude Code
+
+Official references:
+
+- Skills docs: https://code.claude.com/docs/en/slash-commands
+- Plugin docs: https://code.claude.com/docs/en/plugins
+
+Install:
 
 ```bash
-cd "${CODEX_HOME:-$HOME/.codex}/stitch-starter"
+bash install.sh --target claude
+```
+
+Use:
+
+```text
+/stitch-design-local landing page for a design tool aimed at enterprise product teams
+```
+
+This repository also includes a Claude plugin manifest:
+
+- [`.claude-plugin/plugin.json`](./.claude-plugin/plugin.json)
+
+Claude-specific notes:
+
+- the plugin manifest makes the repo easier to package as a Claude Code plugin source
+- the skill itself stays in portable `SKILL.md` format rather than a Claude-only format
+- the repository can also be indexed by custom Claude plugin marketplaces
+
+#### OpenClaw
+
+Official references:
+
+- Skills: https://docs.openclaw.ai/tools/skills
+- ClawHub: https://docs.openclaw.ai/tools/clawhub
+
+Install:
+
+```bash
+bash install.sh --target openclaw
+```
+
+Use:
+
+```text
+Use the stitch-design-local skill to explore three mobile-first UI directions for a checkout experience.
+```
+
+OpenClaw-specific notes:
+
+- the skill frontmatter is kept single-line friendly for OpenClaw compatibility
+- metadata is encoded in a single-line inline map for safer parsing
+- the canonical public distribution surface for OpenClaw is ClawHub
+
+### Direct CLI Usage
+
+All toolkit commands run from:
+
+```bash
+cd "${STITCH_STARTER_ROOT:-$HOME/.agents/stitch-starter}"
+```
+
+List projects and screens:
+
+```bash
 npm run list
+```
+
+Generate a screen:
+
+```bash
 npm run generate -- --prompt "A modern SaaS dashboard with sidebar and stat cards"
-npm run edit -- --prompt "Make it more premium and add stronger typography"
-npm run variants -- --prompt "Explore three different visual directions" --variant-count 3
-```
-
-#### Common Command Patterns
-
-Generate a new screen:
-
-```bash
-npm run generate -- --prompt "B2B dashboard with sidebar, chart cards, and a strong hero header"
-```
-
-Generate inside an existing project:
-
-```bash
-npm run generate -- --project-id 123456789 --prompt "Pricing page with 3 plans"
 ```
 
 Edit the latest screen:
 
 ```bash
-npm run edit -- --prompt "Tighten spacing, improve typography, and make the visual hierarchy clearer"
+npm run edit -- --prompt "Make it more premium and add stronger typography"
 ```
 
-Create variants:
+Generate variants:
 
 ```bash
 npm run variants -- --prompt "Explore three different visual directions" --variant-count 3
@@ -164,10 +259,10 @@ npm run variants -- --prompt "Explore three different visual directions" --varia
 
 ### Output Files
 
-Each run creates a folder under:
+Runs are saved under:
 
 ```text
-${CODEX_HOME:-$HOME/.codex}/stitch-starter/runs/<timestamp>-<operation>-<slug>/
+${STITCH_STARTER_ROOT:-$HOME/.agents/stitch-starter}/runs/<timestamp>-<operation>-<slug>/
 ```
 
 Typical artifacts:
@@ -178,43 +273,60 @@ Typical artifacts:
 - `html-url.txt`
 - `image-url.txt`
 
-The most recent single-screen result is tracked in:
+Latest single-screen pointer:
 
 ```text
-${CODEX_HOME:-$HOME/.codex}/stitch-starter/runs/latest-screen.json
+${STITCH_STARTER_ROOT:-$HOME/.agents/stitch-starter}/runs/latest-screen.json
 ```
 
-### Guidance For AI Agents
+### Discoverability For AI Agents
 
-This repository is intended for both humans and agents. If you are using it from Codex or another agentic environment, follow these conventions:
+This repository is intentionally optimized for discovery:
 
-- prefer the `stitch-design-local` skill over direct ad hoc CLI usage
-- rewrite vague requests into a structured design prompt before calling Stitch
-- default to `DESKTOP` unless the user clearly requests another device type
-- prefer one screen plus three variants for first-pass exploration
-- use `edit` instead of full regeneration when the structure is already close
-- never print `STITCH_API_KEY` or `.env` contents
-- always report where output files were saved
+- strong `description` field in `SKILL.md`
+- portable `Agent Skills` structure
+- root-level [`AGENTS.md`](./AGENTS.md) for catalog-style discovery
+- Codex UI metadata in [`agents/openai.yaml`](./skills/stitch-design-local/agents/openai.yaml)
+- Claude plugin metadata in [`.claude-plugin/plugin.json`](./.claude-plugin/plugin.json)
+- GitHub-friendly repository naming and keyword coverage
 
-### Updating An Existing Installation
+If you are building your own agent client or marketplace, start by reading:
 
-To reinstall the latest version from the repository:
+- [AGENTS.md](./AGENTS.md)
+- [SKILL.md](./skills/stitch-design-local/SKILL.md)
+
+### Publishing And Distribution
+
+This repository is now usable through several channels:
+
+- direct GitHub clone and installer
+- Codex-compatible install from GitHub
+- Claude Code plugin-compatible packaging
+- OpenClaw-native publication through ClawHub
+
+Current practical distribution surfaces:
+
+- GitHub repository: canonical source
+- ClawHub: OpenClaw-native registry
+- external skill catalogues and marketplaces through PRs or submissions
+
+### Updating An Existing Install
 
 ```bash
 git pull
-bash install.sh --force
+bash install.sh --target all --force
 ```
 
-This will replace the installed skill and toolkit while preserving the existing toolkit `.env`.
+The installer preserves the current toolkit `.env` during forced reinstalls.
 
 ### Troubleshooting
 
 #### `STITCH_API_KEY is not set`
 
-Add your key here:
+Add your key to:
 
 ```text
-${CODEX_HOME:-$HOME/.codex}/stitch-starter/.env
+${STITCH_STARTER_ROOT:-$HOME/.agents/stitch-starter}/.env
 ```
 
 Expected format:
@@ -225,80 +337,79 @@ STITCH_API_KEY=your_key_here
 
 #### `Node.js 22+ is required`
 
-Install Node.js 22 or newer, then rerun:
+Install Node.js 22 or newer and rerun:
 
 ```bash
-bash install.sh
+bash install.sh --target all
 ```
 
-#### Skill does not appear in Codex
+#### The skill does not appear in the client
 
-Restart Codex after installation. Skills are loaded by Codex at startup.
+Restart the client after installation:
+
+- restart Codex
+- restart Claude Code
+- restart the OpenClaw session
 
 #### Smoke test fails
 
 Run manually:
 
 ```bash
-cd "${CODEX_HOME:-$HOME/.codex}/stitch-starter"
+cd "${STITCH_STARTER_ROOT:-$HOME/.agents/stitch-starter}"
 npm run list
 ```
 
-If that fails, verify:
+Then verify:
 
 - `.env` exists
 - `STITCH_API_KEY` is valid
-- network access is available
+- outbound network access is available
 
 ### Security Notes
 
-- Do not commit `.env`
-- Do not expose `STITCH_API_KEY` in logs, screenshots, or terminal recordings
-- Generated `runs/` outputs may contain product ideas or internal UI concepts, so review before sharing
+- do not commit `.env`
+- do not print `STITCH_API_KEY`
+- generated `runs/` outputs may contain internal UI concepts or product directions
+- review artifacts before sharing publicly
 
 ### Contributing
 
-Contribution guidelines are available in [CONTRIBUTING.md](./CONTRIBUTING.md).
+See [CONTRIBUTING.md](./CONTRIBUTING.md).
 
-In short:
+Contribution priorities:
 
-1. Fork the repository
-2. Create a branch
-3. Make focused changes
-4. Test the installer and CLI
-5. Open a pull request with a clear summary
+- improve portability
+- improve cross-agent compatibility
+- improve discoverability
+- improve installer reliability
+- improve documentation and validation
 
 ### License
 
-No license has been added yet. Until a license is published, treat reuse and redistribution as not automatically granted.
+No explicit open-source license has been added yet.
+
+Until a license is published, treat the repository as `UNLICENSED`.
 
 ## Русский
 
 ### Обзор
 
-`codex-stitch-local` собирает в одном репозитории всё, что нужно для локального workflow со Stitch и Codex на любом сервере без машинно-зависимых путей.
+`codex-stitch-local` объединяет:
 
-Он решает практическую проблему: исходная версия работала только на одной машине, потому что skill ссылался на захардкоженные пути в домашней директории. Этот репозиторий делает установку переносимой за счет того, что:
+- переносимый skill `stitch-design-local`
+- локальный toolkit `stitch-starter`
+- совместимость сразу с Codex, Claude Code и OpenClaw
 
-- поставляет skill и runtime-toolkit вместе
-- ставит всё в `${CODEX_HOME:-$HOME/.codex}`
-- сохраняет локальные секреты при переустановке через `--force`
-- не тащит в Git секреты и сгенерированные артефакты
+Главная идея здесь не просто “положить `SKILL.md` в репозиторий”, а сделать один канонический skill и один shared toolkit, а уже потом дать нативные точки входа для разных клиентов.
 
-### Для Кого Это
-
-Используйте этот репозиторий, если вам нужно:
-
-- поставить `stitch-design-local` на другой сервер
-- генерировать и редактировать UI-экраны через официальный `@google/stitch-sdk`
-- хранить HTML и скриншоты локально
-- сделать setup воспроизводимым для команды или ИИ-агентов
-
-### Структура Репозитория
+### Что Входит В Репозиторий
 
 ```text
 codex-stitch-local/
+├── AGENTS.md
 ├── install.sh
+├── .claude-plugin/plugin.json
 ├── skills/
 │   └── stitch-design-local/
 │       ├── SKILL.md
@@ -312,114 +423,208 @@ codex-stitch-local/
     └── README.md
 ```
 
+### Модель Совместимости
+
+Канонические пути установки:
+
+- skill: `${AGENT_SKILLS_HOME:-$HOME/.agents}/skills/stitch-design-local`
+- toolkit: `${STITCH_STARTER_ROOT:-$HOME/.agents/stitch-starter}`
+
+Дальше `install.sh` создает native compatibility links:
+
+- Codex: `${CODEX_HOME:-$HOME/.codex}/skills/stitch-design-local`
+- Claude Code: `${CLAUDE_HOME:-$HOME/.claude}/skills/stitch-design-local`
+- OpenClaw: `${OPENCLAW_HOME:-$HOME/.openclaw}/skills/stitch-design-local`
+
+За счет этого у вас нет трех независимых копий skill-а, которые потом начинают расходиться.
+
 ### Требования
 
-- shell-окружение Linux или macOS
+- Linux или macOS shell environment
 - Node.js `22+`
 - npm
-- Codex с поддержкой skills
 - валидный `STITCH_API_KEY`
+- один из клиентов: Codex, Claude Code, OpenClaw или другой агент, который умеет читать skill
 
 ### Быстрый Старт
-
-Склонируйте репозиторий и запустите установщик:
 
 ```bash
 git clone https://github.com/yshishenya/codex-stitch-local.git
 cd codex-stitch-local
-bash install.sh
+bash install.sh --target all
 ```
 
-Установщик:
+Что делает установщик:
 
-1. Скопирует skill в `${CODEX_HOME:-$HOME/.codex}/skills/stitch-design-local`
-2. Скопирует toolkit в `${CODEX_HOME:-$HOME/.codex}/stitch-starter`
-3. Создаст `.env` из `.env.example`, если нужно
-4. Установит Node-зависимости
-5. Запустит smoke test через `npm run list`, если `STITCH_API_KEY` уже настроен
+1. Ставит canonical skill в `~/.agents/skills/stitch-design-local`
+2. Ставит toolkit в `~/.agents/stitch-starter`
+3. Создает compatibility links для Codex, Claude Code и OpenClaw
+4. Создает `.env` из `.env.example`, если нужно
+5. Запускает `npm ci` или `npm install`
+6. Запускает `npm run list`, если `STITCH_API_KEY` уже настроен
 
-После установки:
+### Таргеты Установки
 
-1. Добавьте `STITCH_API_KEY` в `${CODEX_HOME:-$HOME/.codex}/stitch-starter/.env`, если файл пустой
-2. Перезапустите Codex, чтобы он подхватил новый skill
-3. Используйте skill или CLI-команды toolkit-а
-
-### Опции Установки
+Для всех поддерживаемых клиентов:
 
 ```bash
-bash install.sh --force
-bash install.sh --skip-npm
-bash install.sh --skip-smoke
+bash install.sh --target all
 ```
 
-Что делают опции:
+Только canonical Agent Skills layout:
 
-- `--force`: перезаписывает существующую установку, но сохраняет текущий `.env` toolkit-а
-- `--skip-npm`: копирует файлы без установки зависимостей
-- `--skip-smoke`: не запускает `npm run list`, даже если ключ уже есть
+```bash
+bash install.sh --target universal
+```
 
-### Как Пользоваться
+Только для Codex:
 
-#### Внутри Codex
+```bash
+bash install.sh --target codex
+```
 
-Можно явно попросить Codex использовать skill:
+Только для Claude Code:
+
+```bash
+bash install.sh --target claude
+```
+
+Только для OpenClaw:
+
+```bash
+bash install.sh --target openclaw
+```
+
+Полезные флаги:
+
+```bash
+bash install.sh --target all --force
+bash install.sh --target all --skip-npm
+bash install.sh --target all --skip-smoke
+```
+
+### Использование По Платформам
+
+#### Codex
+
+Официальные источники:
+
+- OpenAI Codex Skills: https://developers.openai.com/codex/skills
+- каталог OpenAI skills: https://github.com/openai/skills
+
+Установка:
+
+```bash
+bash install.sh --target codex
+```
+
+Использование:
 
 ```text
 Use $stitch-design-local to generate a premium desktop dashboard for an internal analytics product.
 ```
 
-Обычный поток работы skill-а:
+Нюансы для Codex:
 
-1. Codex усиливает и структурирует дизайн-бриф
-2. Codex запускает локальный toolkit из `${CODEX_HOME:-$HOME/.codex}/stitch-starter`
-3. Stitch возвращает проект и экран
-4. HTML и скриншоты сохраняются в `runs/`
+- skill содержит `agents/openai.yaml` для лучшей UI-discoverability
+- качество автоподхвата сильно зависит от `description` в `SKILL.md`
+- repo-local discovery в актуальной документации завязан на `.agents/skills`
 
-#### Через CLI
+#### Claude Code
+
+Официальные источники:
+
+- skills docs: https://code.claude.com/docs/en/slash-commands
+- plugins docs: https://code.claude.com/docs/en/plugins
+
+Установка:
 
 ```bash
-cd "${CODEX_HOME:-$HOME/.codex}/stitch-starter"
+bash install.sh --target claude
+```
+
+Использование:
+
+```text
+/stitch-design-local landing page for a design tool aimed at enterprise product teams
+```
+
+В репозитории уже есть Claude plugin manifest:
+
+- [`.claude-plugin/plugin.json`](./.claude-plugin/plugin.json)
+
+Нюансы для Claude Code:
+
+- plugin manifest упрощает упаковку repo как plugin source
+- сам skill остается в переносимом формате `SKILL.md`, а не в Claude-only формате
+- репозиторий можно индексировать и через custom Claude plugin marketplaces
+
+#### OpenClaw
+
+Официальные источники:
+
+- skills: https://docs.openclaw.ai/tools/skills
+- ClawHub: https://docs.openclaw.ai/tools/clawhub
+
+Установка:
+
+```bash
+bash install.sh --target openclaw
+```
+
+Использование:
+
+```text
+Use the stitch-design-local skill to explore three mobile-first UI directions for a checkout experience.
+```
+
+Нюансы для OpenClaw:
+
+- frontmatter skill-а держится single-line friendly
+- `metadata` записан inline-map строкой ради более безопасной совместимости с парсером OpenClaw
+- каноническая native-distribution surface для OpenClaw это ClawHub
+
+### Использование Через CLI
+
+Все команды toolkit-а выполняются из:
+
+```bash
+cd "${STITCH_STARTER_ROOT:-$HOME/.agents/stitch-starter}"
+```
+
+Список проектов и экранов:
+
+```bash
 npm run list
+```
+
+Сгенерировать экран:
+
+```bash
 npm run generate -- --prompt "A modern SaaS dashboard with sidebar and stat cards"
-npm run edit -- --prompt "Make it more premium and add stronger typography"
-npm run variants -- --prompt "Explore three different visual directions" --variant-count 3
-```
-
-#### Частые Сценарии Команд
-
-Сгенерировать новый экран:
-
-```bash
-npm run generate -- --prompt "B2B dashboard with sidebar, chart cards, and a strong hero header"
-```
-
-Сгенерировать экран в существующем проекте:
-
-```bash
-npm run generate -- --project-id 123456789 --prompt "Pricing page with 3 plans"
 ```
 
 Отредактировать последний экран:
 
 ```bash
-npm run edit -- --prompt "Tighten spacing, improve typography, and make the visual hierarchy clearer"
+npm run edit -- --prompt "Make it more premium and add stronger typography"
 ```
 
-Сделать варианты:
+Сгенерировать варианты:
 
 ```bash
 npm run variants -- --prompt "Explore three different visual directions" --variant-count 3
 ```
 
-### Выходные Файлы
+### Выходные Артефакты
 
-Каждый запуск создает папку:
+Результаты сохраняются в:
 
 ```text
-${CODEX_HOME:-$HOME/.codex}/stitch-starter/runs/<timestamp>-<operation>-<slug>/
+${STITCH_STARTER_ROOT:-$HOME/.agents/stitch-starter}/runs/<timestamp>-<operation>-<slug>/
 ```
 
-Типичные артефакты:
+Типичные файлы:
 
 - `result.json` или `variants.json`
 - `screen.html`
@@ -427,46 +632,63 @@ ${CODEX_HOME:-$HOME/.codex}/stitch-starter/runs/<timestamp>-<operation>-<slug>/
 - `html-url.txt`
 - `image-url.txt`
 
-Последний одиночный результат также пишется в:
+Ссылка на последний single-screen run:
 
 ```text
-${CODEX_HOME:-$HOME/.codex}/stitch-starter/runs/latest-screen.json
+${STITCH_STARTER_ROOT:-$HOME/.agents/stitch-starter}/runs/latest-screen.json
 ```
 
-### Рекомендации Для ИИ-Агентов
+### Discoverability Для ИИ-Агентов
 
-Репозиторий рассчитан и на людей, и на агентные среды. Если вы используете его из Codex или другого ИИ-агента, придерживайтесь этих правил:
+Репозиторий специально оптимизирован под discoverability:
 
-- предпочитайте `stitch-design-local`, а не разовые ad hoc CLI-вызовы
-- перед вызовом Stitch превращайте расплывчатый запрос в структурированный дизайн-промпт
-- по умолчанию используйте `DESKTOP`, если пользователь явно не просил другое устройство
-- для первого прохода лучше делать один экран и три варианта
-- если структура уже близка к цели, используйте `edit`, а не полную регенерацию
-- никогда не печатайте `STITCH_API_KEY` или содержимое `.env`
-- всегда сообщайте, куда сохранены выходные файлы
+- сильный `description` в `SKILL.md`
+- portable `Agent Skills` structure
+- root-level [`AGENTS.md`](./AGENTS.md) для catalog-style discovery
+- метаданные Codex в [`agents/openai.yaml`](./skills/stitch-design-local/agents/openai.yaml)
+- метаданные Claude plugin в [`.claude-plugin/plugin.json`](./.claude-plugin/plugin.json)
+- GitHub-friendly naming и keyword coverage
+
+Если вы строите свой агент, marketplace или indexer, начните с:
+
+- [AGENTS.md](./AGENTS.md)
+- [SKILL.md](./skills/stitch-design-local/SKILL.md)
+
+### Публикация И Дистрибуция
+
+Репозиторий уже пригоден для распространения через:
+
+- прямой GitHub clone + installer
+- Codex-compatible install из GitHub
+- Claude Code plugin-compatible packaging
+- OpenClaw-native publication через ClawHub
+
+Практические каналы распространения сейчас:
+
+- GitHub repo как canonical source
+- ClawHub как native registry для OpenClaw
+- внешние skill catalogs / marketplaces через PR или submission
 
 ### Обновление Уже Установленной Версии
 
-Чтобы переустановить актуальную версию из репозитория:
-
 ```bash
 git pull
-bash install.sh --force
+bash install.sh --target all --force
 ```
 
-Это обновит skill и toolkit, сохранив текущий `.env`.
+Установщик сохраняет текущий `.env` toolkit-а при `--force`.
 
 ### Решение Проблем
 
 #### `STITCH_API_KEY is not set`
 
-Добавьте ключ сюда:
+Добавьте ключ в:
 
 ```text
-${CODEX_HOME:-$HOME/.codex}/stitch-starter/.env
+${STITCH_STARTER_ROOT:-$HOME/.agents/stitch-starter}/.env
 ```
 
-Ожидаемый формат:
+Формат:
 
 ```dotenv
 STITCH_API_KEY=your_key_here
@@ -474,49 +696,56 @@ STITCH_API_KEY=your_key_here
 
 #### `Node.js 22+ is required`
 
-Установите Node.js 22 или новее и повторите:
+Поставьте Node.js 22 или новее и повторите:
 
 ```bash
-bash install.sh
+bash install.sh --target all
 ```
 
-#### Skill не появился в Codex
+#### Skill не появился в клиенте
 
-Перезапустите Codex после установки. Skills загружаются при старте.
+После установки перезапустите клиент:
+
+- restart Codex
+- restart Claude Code
+- restart OpenClaw session
 
 #### Smoke test падает
 
 Запустите вручную:
 
 ```bash
-cd "${CODEX_HOME:-$HOME/.codex}/stitch-starter"
+cd "${STITCH_STARTER_ROOT:-$HOME/.agents/stitch-starter}"
 npm run list
 ```
 
-Если команда падает, проверьте:
+И проверьте:
 
 - что `.env` существует
 - что `STITCH_API_KEY` валиден
-- что есть доступ в сеть
+- что есть исходящий доступ в сеть
 
 ### Безопасность
 
 - не коммитьте `.env`
-- не светите `STITCH_API_KEY` в логах, скриншотах и записях терминала
-- папка `runs/` может содержать внутренние UI-концепты, поэтому проверяйте содержимое перед публикацией
+- не печатайте `STITCH_API_KEY`
+- папка `runs/` может содержать внутренние UI-концепты и продуктовые направления
+- перед публикацией внешних артефактов проверяйте содержимое
 
 ### Контрибьютинг
 
-Подробные правила описаны в [CONTRIBUTING.md](./CONTRIBUTING.md).
+Смотрите [CONTRIBUTING.md](./CONTRIBUTING.md).
 
-Коротко:
+Приоритеты для вклада:
 
-1. Сделайте fork
-2. Создайте ветку
-3. Вносите сфокусированные изменения
-4. Проверьте installer и CLI
-5. Откройте pull request с понятным описанием
+- portability
+- cross-agent compatibility
+- discoverability
+- reliability installer-а
+- docs и validation
 
 ### Лицензия
 
-Лицензия пока не добавлена. До её публикации считайте, что автоматическое право на свободное переиспользование и распространение не предоставлено.
+Явная open-source лицензия пока не добавлена.
+
+До публикации лицензии считайте репозиторий `UNLICENSED`.

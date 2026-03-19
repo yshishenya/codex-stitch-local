@@ -3,12 +3,16 @@ set -euo pipefail
 
 usage() {
   cat <<'EOF'
-Usage: bash install.sh [--force] [--skip-npm] [--skip-smoke]
+Usage: bash install.sh [options]
 
 Options:
-  --force       Overwrite existing installed skill/toolkit
-  --skip-npm    Skip npm install in the toolkit
-  --skip-smoke  Skip npm run list smoke test even if STITCH_API_KEY is set
+  --target <name>   Install target: all | universal | codex | claude | openclaw
+                    all: install canonical skill/toolkit plus links for Codex, Claude Code, and OpenClaw
+                    universal: install only the canonical Agent Skills layout under ~/.agents
+  --force           Overwrite existing installed skill/toolkit
+  --skip-npm        Skip npm install / npm ci in the toolkit
+  --skip-smoke      Skip npm run list smoke test even if STITCH_API_KEY is set
+  -h, --help        Show this help
 EOF
 }
 
@@ -26,13 +30,32 @@ copy_dir() {
   cp -R "$src" "$dest"
 }
 
+safe_remove() {
+  local path="$1"
+  if [[ -L "$path" || -e "$path" ]]; then
+    rm -rf "$path"
+  fi
+}
+
+create_link() {
+  local src="$1"
+  local dest="$2"
+  mkdir -p "$(dirname "$dest")"
+  ln -sfn "$src" "$dest"
+}
+
 FORCE=0
 SKIP_NPM=0
 SKIP_SMOKE=0
+TARGET="all"
 ENV_BACKUP=""
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
+    --target)
+      TARGET="${2:-}"
+      shift
+      ;;
     --force)
       FORCE=1
       ;;
@@ -55,6 +78,16 @@ while [[ $# -gt 0 ]]; do
   shift
 done
 
+case "$TARGET" in
+  all|universal|codex|claude|openclaw)
+    ;;
+  *)
+    echo "Invalid --target value: $TARGET" >&2
+    usage >&2
+    exit 1
+    ;;
+esac
+
 require_cmd node
 require_cmd npm
 
@@ -66,25 +99,52 @@ fi
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$SCRIPT_DIR"
+
+AGENT_SKILLS_HOME="${AGENT_SKILLS_HOME:-$HOME/.agents}"
+STITCH_STARTER_ROOT="${STITCH_STARTER_ROOT:-$AGENT_SKILLS_HOME/stitch-starter}"
 CODEX_HOME="${CODEX_HOME:-$HOME/.codex}"
+CLAUDE_HOME="${CLAUDE_HOME:-$HOME/.claude}"
+OPENCLAW_HOME="${OPENCLAW_HOME:-$HOME/.openclaw}"
 
 SKILL_SRC="$REPO_ROOT/skills/stitch-design-local"
 TOOLKIT_SRC="$REPO_ROOT/stitch-starter"
-SKILL_DEST="$CODEX_HOME/skills/stitch-design-local"
-TOOLKIT_DEST="$CODEX_HOME/stitch-starter"
+CANONICAL_SKILL_DEST="$AGENT_SKILLS_HOME/skills/stitch-design-local"
+TOOLKIT_DEST="$STITCH_STARTER_ROOT"
+
+CODEX_LINK="$CODEX_HOME/skills/stitch-design-local"
+CLAUDE_LINK="$CLAUDE_HOME/skills/stitch-design-local"
+OPENCLAW_LINK="$OPENCLAW_HOME/skills/stitch-design-local"
 
 if [[ ! -d "$SKILL_SRC" || ! -d "$TOOLKIT_SRC" ]]; then
   echo "Repository layout is invalid. Missing skill or toolkit source directory." >&2
   exit 1
 fi
 
-mkdir -p "$CODEX_HOME/skills"
+declare -a LINK_DESTS=()
+case "$TARGET" in
+  all)
+    LINK_DESTS+=("$CODEX_LINK" "$CLAUDE_LINK" "$OPENCLAW_LINK")
+    ;;
+  codex)
+    LINK_DESTS+=("$CODEX_LINK")
+    ;;
+  claude)
+    LINK_DESTS+=("$CLAUDE_LINK")
+    ;;
+  openclaw)
+    LINK_DESTS+=("$OPENCLAW_LINK")
+    ;;
+  universal)
+    ;;
+esac
 
-if [[ -e "$SKILL_DEST" || -e "$TOOLKIT_DEST" ]]; then
+mkdir -p "$AGENT_SKILLS_HOME/skills"
+
+if [[ -e "$CANONICAL_SKILL_DEST" || -e "$TOOLKIT_DEST" ]]; then
   if [[ "$FORCE" -ne 1 ]]; then
     echo "Destination already exists." >&2
     echo "Use --force to overwrite:" >&2
-    echo "  $SKILL_DEST" >&2
+    echo "  $CANONICAL_SKILL_DEST" >&2
     echo "  $TOOLKIT_DEST" >&2
     exit 1
   fi
@@ -92,10 +152,22 @@ if [[ -e "$SKILL_DEST" || -e "$TOOLKIT_DEST" ]]; then
     ENV_BACKUP="$(mktemp)"
     cp "$TOOLKIT_DEST/.env" "$ENV_BACKUP"
   fi
-  rm -rf "$SKILL_DEST" "$TOOLKIT_DEST"
+  safe_remove "$CANONICAL_SKILL_DEST"
+  safe_remove "$TOOLKIT_DEST"
 fi
 
-copy_dir "$SKILL_SRC" "$SKILL_DEST"
+for link_dest in "${LINK_DESTS[@]}"; do
+  if [[ -e "$link_dest" || -L "$link_dest" ]]; then
+    if [[ "$FORCE" -ne 1 ]]; then
+      echo "Compatibility link already exists: $link_dest" >&2
+      echo "Use --force to overwrite existing compatibility links." >&2
+      exit 1
+    fi
+    safe_remove "$link_dest"
+  fi
+done
+
+copy_dir "$SKILL_SRC" "$CANONICAL_SKILL_DEST"
 copy_dir "$TOOLKIT_SRC" "$TOOLKIT_DEST"
 
 if [[ -n "$ENV_BACKUP" ]]; then
@@ -104,6 +176,10 @@ if [[ -n "$ENV_BACKUP" ]]; then
 elif [[ ! -f "$TOOLKIT_DEST/.env" ]]; then
   cp "$TOOLKIT_DEST/.env.example" "$TOOLKIT_DEST/.env"
 fi
+
+for link_dest in "${LINK_DESTS[@]}"; do
+  create_link "$CANONICAL_SKILL_DEST" "$link_dest"
+done
 
 if [[ "$SKIP_NPM" -ne 1 ]]; then
   (
@@ -132,16 +208,25 @@ fi
 cat <<EOF
 Installed stitch local setup.
 
-CODEX_HOME: $CODEX_HOME
-Skill: $SKILL_DEST
+Target: $TARGET
+Canonical skill: $CANONICAL_SKILL_DEST
 Toolkit: $TOOLKIT_DEST
 Node: $(node -v)
 NPM: $(npm -v)
 Smoke test: $SMOKE_STATUS
 
+Compatibility links:
+$(if [[ "${#LINK_DESTS[@]}" -eq 0 ]]; then
+    echo "  (none)"
+  else
+    for link_dest in "${LINK_DESTS[@]}"; do
+      echo "  $link_dest -> $CANONICAL_SKILL_DEST"
+    done
+  fi)
+
 Next steps:
 1. Add STITCH_API_KEY to $TOOLKIT_DEST/.env if it is empty.
-2. Restart Codex to pick up the new skill.
+2. Restart your agent client so it picks up the installed skill.
 3. Use the toolkit from:
    cd "$TOOLKIT_DEST"
 EOF

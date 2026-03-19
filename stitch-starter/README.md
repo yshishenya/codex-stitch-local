@@ -5,7 +5,7 @@ Minimal local starter for the official `@google/stitch-sdk`.
 ## Setup
 
 ```bash
-cd ~/.codex/stitch-starter
+cd "${STITCH_STARTER_ROOT:-$HOME/.agents/stitch-starter}"
 cp .env.example .env
 # add STITCH_API_KEY to .env
 npm install

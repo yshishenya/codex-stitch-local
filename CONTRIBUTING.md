@@ -93,15 +93,22 @@ cd stitch-starter && npm ci
 Installer test in a temporary Codex home:
 
 ```bash
-TEST_CODEX_HOME=/tmp/codex-stitch-local-test
-rm -rf "$TEST_CODEX_HOME"
-CODEX_HOME="$TEST_CODEX_HOME" bash install.sh
+TEST_AGENTS_HOME=/tmp/codex-stitch-local-test-agents
+TEST_CODEX_HOME=/tmp/codex-stitch-local-test-codex
+TEST_CLAUDE_HOME=/tmp/codex-stitch-local-test-claude
+TEST_OPENCLAW_HOME=/tmp/codex-stitch-local-test-openclaw
+rm -rf "$TEST_AGENTS_HOME" "$TEST_CODEX_HOME" "$TEST_CLAUDE_HOME" "$TEST_OPENCLAW_HOME"
+AGENT_SKILLS_HOME="$TEST_AGENTS_HOME" \
+CODEX_HOME="$TEST_CODEX_HOME" \
+CLAUDE_HOME="$TEST_CLAUDE_HOME" \
+OPENCLAW_HOME="$TEST_OPENCLAW_HOME" \
+bash install.sh --target all
 ```
 
 If `STITCH_API_KEY` is configured, also run:
 
 ```bash
-cd "${CODEX_HOME:-$HOME/.codex}/stitch-starter"
+cd "${STITCH_STARTER_ROOT:-$HOME/.agents/stitch-starter}"
 npm run list
 ```
 
@@ -238,15 +245,22 @@ cd stitch-starter && npm ci
 Проверка installer-а во временный Codex home:
 
 ```bash
-TEST_CODEX_HOME=/tmp/codex-stitch-local-test
-rm -rf "$TEST_CODEX_HOME"
-CODEX_HOME="$TEST_CODEX_HOME" bash install.sh
+TEST_AGENTS_HOME=/tmp/codex-stitch-local-test-agents
+TEST_CODEX_HOME=/tmp/codex-stitch-local-test-codex
+TEST_CLAUDE_HOME=/tmp/codex-stitch-local-test-claude
+TEST_OPENCLAW_HOME=/tmp/codex-stitch-local-test-openclaw
+rm -rf "$TEST_AGENTS_HOME" "$TEST_CODEX_HOME" "$TEST_CLAUDE_HOME" "$TEST_OPENCLAW_HOME"
+AGENT_SKILLS_HOME="$TEST_AGENTS_HOME" \
+CODEX_HOME="$TEST_CODEX_HOME" \
+CLAUDE_HOME="$TEST_CLAUDE_HOME" \
+OPENCLAW_HOME="$TEST_OPENCLAW_HOME" \
+bash install.sh --target all
 ```
 
 Если `STITCH_API_KEY` уже настроен, дополнительно запустите:
 
 ```bash
-cd "${CODEX_HOME:-$HOME/.codex}/stitch-starter"
+cd "${STITCH_STARTER_ROOT:-$HOME/.agents/stitch-starter}"
 npm run list
 ```
 

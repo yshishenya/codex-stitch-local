@@ -1,20 +1,22 @@
 ---
 name: stitch-design-local
-description: Use the local Stitch starter toolkit to turn briefs into generated screens, targeted edits, and variants with the official @google/stitch-sdk. Use when the user wants design generation via Stitch, HTML/screenshots saved locally, or iterative UI exploration from a brief or existing project context.
+description: Generate and refine local Stitch UI screens with the official @google/stitch-sdk. Use when the user wants desktop or mobile UI exploration, design variants, HTML exports, screenshot exports, or iterative screen edits from a brief, mockup, or product context.
+compatibility: Requires Node.js 22+, a configured STITCH_API_KEY, and the local stitch-starter toolkit installed by this repository.
+metadata: {"homepage":"https://github.com/yshishenya/codex-stitch-local","category":"design","platforms":"codex,claude-code,openclaw","install":"bash install.sh --target all","toolkit_root":"${STITCH_STARTER_ROOT:-$HOME/.agents/stitch-starter}"}
 ---
 
 # Stitch Design Local
 
 Use this skill when the user wants to design or iterate UI through Stitch.
 
-This skill is adapted from the official Stitch workflow patterns, but it uses the local toolkit at `${CODEX_HOME:-$HOME/.codex}/stitch-starter` instead of a Stitch MCP tool.
+This skill is adapted from the official Stitch workflow patterns, but it uses the local toolkit at `${STITCH_STARTER_ROOT:-$HOME/.agents/stitch-starter}` instead of a Stitch MCP tool.
 
 ## Local setup
 
-- Toolkit root: `${CODEX_HOME:-$HOME/.codex}/stitch-starter`
-- API key is expected in `${CODEX_HOME:-$HOME/.codex}/stitch-starter/.env`
-- Outputs are saved to `${CODEX_HOME:-$HOME/.codex}/stitch-starter/runs`
-- The latest single-screen result is tracked in `${CODEX_HOME:-$HOME/.codex}/stitch-starter/runs/latest-screen.json`
+- Toolkit root: `${STITCH_STARTER_ROOT:-$HOME/.agents/stitch-starter}`
+- API key is expected in `${STITCH_STARTER_ROOT:-$HOME/.agents/stitch-starter}/.env`
+- Outputs are saved to `${STITCH_STARTER_ROOT:-$HOME/.agents/stitch-starter}/runs`
+- The latest single-screen result is tracked in `${STITCH_STARTER_ROOT:-$HOME/.agents/stitch-starter}/runs/latest-screen.json`
 
 ## When to use
 
@@ -77,7 +79,7 @@ After running Stitch, report:
 
 - the command used at a high level, not the secret env
 - the project and screen ids
-- the output folder under `${CODEX_HOME:-$HOME/.codex}/stitch-starter/runs`
+- the output folder under `${STITCH_STARTER_ROOT:-$HOME/.agents/stitch-starter}/runs`
 - the HTML and image artifact paths if they were downloaded
 - a brief design assessment and the best next step
 

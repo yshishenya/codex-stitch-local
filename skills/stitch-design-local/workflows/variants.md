@@ -19,7 +19,7 @@ description: Generate multiple visual directions from a base Stitch screen using
 3. Run:
 
 ```bash
-cd "${CODEX_HOME:-$HOME/.codex}/stitch-starter"
+cd "${STITCH_STARTER_ROOT:-$HOME/.agents/stitch-starter}"
 npm run variants -- --prompt "..." --variant-count 3
 ```
 

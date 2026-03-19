@@ -1,0 +1,21 @@
+{
+  "name": "stitch-design-local",
+  "description": "Generate and iterate UI with a local Stitch starter toolkit and reusable cross-agent skill packaging.",
+  "version": "1.0.0",
+  "author": {
+    "name": "yshishenya",
+    "url": "https://github.com/yshishenya"
+  },
+  "repository": "https://github.com/yshishenya/codex-stitch-local",
+  "homepage": "https://github.com/yshishenya/codex-stitch-local",
+  "license": "UNLICENSED",
+  "keywords": [
+    "stitch",
+    "design",
+    "ui",
+    "claude-code",
+    "codex",
+    "openclaw",
+    "agent-skills"
+  ]
+}

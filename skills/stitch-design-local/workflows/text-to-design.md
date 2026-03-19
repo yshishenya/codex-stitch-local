@@ -11,14 +11,14 @@ description: Generate a new Stitch screen from a brief using the local starter t
 3. If the user named a Stitch project, use it. Otherwise create or reuse a suitable project by calling:
 
 ```bash
-cd "${CODEX_HOME:-$HOME/.codex}/stitch-starter"
+cd "${STITCH_STARTER_ROOT:-$HOME/.agents/stitch-starter}"
 npm run list
 ```
 
 4. Generate the screen:
 
 ```bash
-cd "${CODEX_HOME:-$HOME/.codex}/stitch-starter"
+cd "${STITCH_STARTER_ROOT:-$HOME/.agents/stitch-starter}"
 npm run generate -- --prompt "..." [--project-id ...] [--device DESKTOP]
 ```
 

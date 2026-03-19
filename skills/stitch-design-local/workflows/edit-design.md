@@ -11,7 +11,7 @@ description: Edit an existing Stitch screen through the local starter toolkit.
 - Otherwise discover ids with:
 
 ```bash
-cd "${CODEX_HOME:-$HOME/.codex}/stitch-starter"
+cd "${STITCH_STARTER_ROOT:-$HOME/.agents/stitch-starter}"
 npm run list
 ```
 
@@ -25,14 +25,14 @@ Good edit prompts name:
 3. Run the edit command:
 
 ```bash
-cd "${CODEX_HOME:-$HOME/.codex}/stitch-starter"
+cd "${STITCH_STARTER_ROOT:-$HOME/.agents/stitch-starter}"
 npm run edit -- --prompt "..."
 ```
 
 Or target a specific screen:
 
 ```bash
-cd "${CODEX_HOME:-$HOME/.codex}/stitch-starter"
+cd "${STITCH_STARTER_ROOT:-$HOME/.agents/stitch-starter}"
 npm run edit -- --project-id ... --screen-id ... --prompt "..."
 ```
 

@@ -3,7 +3,7 @@
 All commands run from:
 
 ```bash
-cd "${CODEX_HOME:-$HOME/.codex}/stitch-starter"
+cd "${STITCH_STARTER_ROOT:-$HOME/.agents/stitch-starter}"
 ```
 
 ## List projects and screens
@@ -57,7 +57,7 @@ Useful options:
 Each run creates a folder under:
 
 ```text
-${CODEX_HOME:-$HOME/.codex}/stitch-starter/runs/<timestamp>-<operation>-<slug>/
+${STITCH_STARTER_ROOT:-$HOME/.agents/stitch-starter}/runs/<timestamp>-<operation>-<slug>/
 ```
 
 Typical artifacts:
@@ -71,5 +71,5 @@ Typical artifacts:
 The most recent single-screen result is tracked in:
 
 ```text
-${CODEX_HOME:-$HOME/.codex}/stitch-starter/runs/latest-screen.json
+${STITCH_STARTER_ROOT:-$HOME/.agents/stitch-starter}/runs/latest-screen.json
 ```
