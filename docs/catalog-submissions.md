@@ -31,6 +31,14 @@ Snapshot as of 2026-03-19:
 - `hesreallyhim/awesome-claude-code`: recommends submissions only via the GitHub web UI issue form; CLI/programmatic submission is explicitly disallowed
 - `Skillstore`: submit page exists, but automated submission endpoint was not exposed in the public page bundle; treat as a manual follow-up unless we sign in and use the web UI
 
+## Review follow-up
+
+Snapshot as of 2026-03-19:
+
+- `netresearch/claude-code-marketplace`: pushed a README follow-up so `stitchflow` no longer sits inside the TYPO3 block; source `.claude-plugin/plugin.json` in `yshishenya/stitchflow` was revalidated locally with `jq` and `python -m json.tool`
+- `rohitg00/awesome-claude-code-toolkit`: pushed a follow-up replacing the repo-root-relative install snippet with a copy-paste-safe `git clone && cd && bash install.sh --target all`
+- `zocomputer/skills`: PR is open with no reported GitHub checks on the branch yet; current status shows `UNSTABLE`, but no failing check details are exposed through `gh pr checks`
+
 ## Popular surfaces by ecosystem
 
 Use this section to prioritize channels by actual distribution power, not by how often they get mentioned on X.
