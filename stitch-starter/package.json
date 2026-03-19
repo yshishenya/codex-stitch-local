@@ -1,0 +1,17 @@
+{
+  "name": "stitch-starter",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "generate": "node --env-file-if-exists=.env scripts/generate.mjs",
+    "edit": "node --env-file-if-exists=.env scripts/edit.mjs",
+    "variants": "node --env-file-if-exists=.env scripts/variants.mjs",
+    "list": "node --env-file-if-exists=.env scripts/list.mjs"
+  },
+  "dependencies": {
+    "@google/stitch-sdk": "^0.0.3"
+  }
+}
