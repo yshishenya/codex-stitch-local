@@ -141,6 +141,23 @@ npm run edit -- --prompt "Make it more premium and add stronger typography"
 npm run variants -- --prompt "Explore three different visual directions" --variant-count 3
 ```
 
+## Example outcomes
+
+What people can actually do with this:
+
+- generate three landing page directions before writing frontend code
+- turn a rough dashboard brief into HTML and screenshot artifacts
+- iterate on an internal tool UI from real product context instead of blank-canvas design work
+- use Stitch output as a fast bridge between product thinking and implementation
+
+Ready-to-use prompts:
+
+- [examples/prompt-recipes.md](./examples/prompt-recipes.md)
+
+If you want to record a short demo or launch video:
+
+- [docs/demo-script.md](./docs/demo-script.md)
+
 ## What gets saved
 
 Outputs go to:
@@ -182,6 +199,7 @@ ${STITCH_STARTER_ROOT:-$HOME/.agents/stitch-starter}/runs/latest-screen.json
 
 - contribution guide: [CONTRIBUTING.md](./CONTRIBUTING.md)
 - toolkit details: [stitch-starter/README.md](./stitch-starter/README.md)
+- launch and messaging kit: [docs/launch-kit.md](./docs/launch-kit.md)
 
 </details>
 
@@ -294,6 +312,23 @@ npm run edit -- --prompt "Make it more premium and add stronger typography"
 npm run variants -- --prompt "Explore three different visual directions" --variant-count 3
 ```
 
+## Примеры результата
+
+Что с этим реально можно делать:
+
+- быстро генерировать три направления лендинга до написания фронтенда
+- превращать сырой бриф по dashboard в HTML и скриншоты
+- итерировать UI внутреннего инструмента из продуктового контекста, а не с пустого листа
+- использовать Stitch как быстрый мост между product thinking и implementation
+
+Готовые prompt recipes:
+
+- [examples/prompt-recipes.md](./examples/prompt-recipes.md)
+
+Если хочешь записать короткое demo/video:
+
+- [docs/demo-script.md](./docs/demo-script.md)
+
 ## Что сохраняется
 
 Все результаты попадают в:
@@ -335,5 +370,6 @@ ${STITCH_STARTER_ROOT:-$HOME/.agents/stitch-starter}/runs/latest-screen.json
 
 - guide по вкладу: [CONTRIBUTING.md](./CONTRIBUTING.md)
 - детали toolkit-а: [stitch-starter/README.md](./stitch-starter/README.md)
+- launch и messaging kit: [docs/launch-kit.md](./docs/launch-kit.md)
 
 </details>
