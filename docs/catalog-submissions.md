@@ -19,12 +19,14 @@ Snapshot as of 2026-03-19:
 - askill: live at `https://askill.sh/skills/gh/yshishenya/stitchflow/@stitchflow` and `https://askill.sh/skills/gh/yshishenya/stitchflow/@stitch-design-local`
 - `skills.sh`: live at `https://skills.sh/yshishenya/stitchflow/stitchflow`
 - `agentskill.sh`: live at `https://agentskill.sh/@yshishenya/stitchflow` and `https://agentskill.sh/@yshishenya/stitch-design-local`
-- `SkillsMP`: not yet indexable because the public FAQ says they filter out repositories with fewer than `2` GitHub stars; repo metadata was updated to improve matching once the scraper picks it up
+- `SkillsMP`: repo now clears the public `2`-star threshold, but live verification is still blocked by their Cloudflare challenge and API key requirement; keep watching for auto-index pickup
 - `awesome-llm-skills`: PR opened at `https://github.com/Prat011/awesome-llm-skills/pull/51`
 - `awesome-claude-skills`: PR opened at `https://github.com/ComposioHQ/awesome-claude-skills/pull/429`
+- `awesome-codex-skills`: PR opened at `https://github.com/ComposioHQ/awesome-codex-skills/pull/8`
 - `netresearch/claude-code-marketplace`: PR opened at `https://github.com/netresearch/claude-code-marketplace/pull/34`
 - `heilcheng/awesome-agent-skills`: PR opened at `https://github.com/heilcheng/awesome-agent-skills/pull/117`
 - `rohitg00/awesome-claude-code-toolkit`: PR opened at `https://github.com/rohitg00/awesome-claude-code-toolkit/pull/67`
+- `zocomputer/skills`: PR opened at `https://github.com/zocomputer/skills/pull/47`
 - `github/awesome-copilot`: not submitted because their contribution policy rejects non-GitHub and non-Microsoft external plugins from remote sources
 - `hesreallyhim/awesome-claude-code`: recommends submissions only via the GitHub web UI issue form; CLI/programmatic submission is explicitly disallowed
 - `Skillstore`: submit page exists, but automated submission endpoint was not exposed in the public page bundle; treat as a manual follow-up unless we sign in and use the web UI
@@ -112,7 +114,17 @@ Use this section to prioritize channels by actual distribution power, not by how
    Fit for StitchFlow:
    - already in progress via PR
 
-3. `huggingface/skills`
+3. `ComposioHQ/awesome-codex-skills`
+   Why it matters:
+   - focused Codex discovery surface with installable skill folders
+   - direct audience overlap with Codex users already looking for reusable skills
+   Popularity:
+   - GitHub stars: `491`
+   Fit for StitchFlow:
+   - strong Codex-native fit
+   - already in progress via PR
+
+4. `huggingface/skills`
    Why it matters:
    - multi-agent skills repo with explicit support for Claude Code, Codex, Gemini CLI, and Cursor
    Popularity:
@@ -142,8 +154,8 @@ Implication:
 
 ## Near-term priority order
 
-1. `ComposioHQ/awesome-claude-skills`
-2. keep `awesome-llm-skills` PR moving
+1. keep open PRs moving, especially `awesome-claude-skills`, `awesome-codex-skills`, and `zocomputer/skills`
+2. watch `SkillsMP` for auto-index pickup now that the public star threshold is met
 3. deepen askill presence and canonical publish flow
 4. explore whether `huggingface/skills` is open to a cross-agent design workflow like StitchFlow
 5. revisit Copilot only if we can satisfy marketplace policy without a likely rejection
