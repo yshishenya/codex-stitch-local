@@ -10,7 +10,7 @@ Short version:
 
 Expanded version:
 
-`StitchFlow` lets you generate and iterate UI with natural language, save HTML and screenshots locally, and reuse the same workflow across Codex, Claude Code, and OpenClaw.
+`StitchFlow` lets you generate and iterate UI with natural language, save HTML and screenshots locally, and reuse the same workflow across Codex, Claude Code, OpenClaw, GitHub Copilot, and Gemini CLI.
 
 ## Why people should care
 
@@ -31,7 +31,7 @@ Expanded version:
 ```text
 Now design can be programmed.
 
-I turned Google Stitch SDK into a reusable skill for Codex, Claude Code, and OpenClaw.
+I turned Google Stitch SDK into a reusable skill for Codex, Claude Code, OpenClaw, GitHub Copilot, and Gemini CLI.
 
 You can:
 - generate UI from natural language
@@ -47,7 +47,7 @@ Repo: https://github.com/yshishenya/stitchflow
 ```text
 Теперь дизайн можно программировать.
 
-Собрал Google Stitch SDK в reusable skill для Codex, Claude Code и OpenClaw.
+Собрал Google Stitch SDK в reusable skill для Codex, Claude Code, OpenClaw, GitHub Copilot и Gemini CLI.
 
 Что умеет:
 - генерировать UI из обычного текста
@@ -67,14 +67,24 @@ Repo: https://github.com/yshishenya/stitchflow
 - give copy-paste demo commands
 - make installation frictionless
 - add a license before broad outreach
+- publish through native install surfaces before broad social posting
+- maintain one canonical tagline everywhere
+- track which channels generate stars versus installs
 
 ## Distribution targets
 
-- GitHub
+- GitHub repository SEO
 - ClawHub
+- GitHub Copilot plugin install
+- Gemini CLI extensions
+- github/awesome-copilot
+- askill.sh
 - awesome-llm-skills
-- n-skills
 - X / Twitter
 - Telegram
 - Hacker News
 - Reddit communities around AI coding tools and design engineering
+
+Detailed submission checklist:
+
+- [docs/catalog-submissions.md](./catalog-submissions.md)

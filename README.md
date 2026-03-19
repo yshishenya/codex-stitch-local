@@ -5,6 +5,8 @@
 [![Codex](https://img.shields.io/badge/OpenAI-Codex-10A37F)](https://developers.openai.com/codex/skills)
 [![Claude Code](https://img.shields.io/badge/Anthropic-Claude%20Code-D97706)](https://code.claude.com/docs/en/slash-commands)
 [![OpenClaw](https://img.shields.io/badge/OpenClaw-ClawHub-2563EB)](https://docs.openclaw.ai/tools/clawhub)
+[![GitHub Copilot](https://img.shields.io/badge/GitHub%20Copilot-plugin-000000?logo=github)](https://github.com/github/awesome-copilot)
+[![Gemini CLI](https://img.shields.io/badge/Gemini%20CLI-extension-4285F4)](https://google-gemini.github.io/gemini-cli/docs/extensions/)
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue)](./LICENSE)
 
 > Turn product briefs into UI screens, variants, HTML, and screenshots in minutes.
@@ -18,6 +20,8 @@ StitchFlow is a portable Stitch skill bundle for:
 - Codex
 - Claude Code
 - OpenClaw
+- GitHub Copilot
+- Gemini CLI
 - other clients that understand `SKILL.md` or `AGENTS.md`
 
 ![Generated Stitch dashboard demo](./assets/demo/stitch-dashboard-demo.png)
@@ -27,13 +31,16 @@ Generated locally from a natural-language prompt with the bundled Stitch workflo
 Try this first:
 
 ```text
-Use $stitch-design-local to generate a premium desktop analytics dashboard for a product team, with a left sidebar, KPI cards, trend charts, and clean Tailwind-ready HTML.
+Use $stitchflow to generate a premium desktop analytics dashboard for a product team, with a left sidebar, KPI cards, trend charts, and clean Tailwind-ready HTML.
 ```
 
 Compatibility note:
 
 - brand name: `StitchFlow`
-- current skill slug: `stitch-design-local`
+- current skill slug: `stitchflow`
+- legacy alias still supported: `stitch-design-local`
+- GitHub Copilot plugin slug: `stitchflow`
+- Gemini CLI extension id: `stitchflow`
 
 ## 60-second setup
 
@@ -75,22 +82,35 @@ StitchFlow packages Stitch as a reusable agent skill, installs a local toolkit, 
 
 ## What you get
 
-- one canonical skill: `stitch-design-local`
+- one canonical skill: `stitchflow`
 - one shared local toolkit: `stitch-starter`
-- one installer for Codex, Claude Code, and OpenClaw
+- one installer for Codex, Claude Code, OpenClaw, and GitHub Copilot
 - local HTML, screenshots, and run artifacts
 - one canonical setup under `~/.agents` with compatibility links for native clients
 
 Canonical install paths:
 
-- skill: `${AGENT_SKILLS_HOME:-$HOME/.agents}/skills/stitch-design-local`
+- skill: `${AGENT_SKILLS_HOME:-$HOME/.agents}/skills/stitchflow`
 - toolkit: `${STITCH_STARTER_ROOT:-$HOME/.agents/stitch-starter}`
 
 Optional compatibility links:
 
+- `${CODEX_HOME:-$HOME/.codex}/skills/stitchflow`
+- `${CLAUDE_HOME:-$HOME/.claude}/skills/stitchflow`
+- `${OPENCLAW_HOME:-$HOME/.openclaw}/skills/stitchflow`
+- `${COPILOT_HOME:-$HOME/.copilot}/skills/stitchflow`
+
+Legacy alias links remain available after install:
+
 - `${CODEX_HOME:-$HOME/.codex}/skills/stitch-design-local`
 - `${CLAUDE_HOME:-$HOME/.claude}/skills/stitch-design-local`
 - `${OPENCLAW_HOME:-$HOME/.openclaw}/skills/stitch-design-local`
+- `${COPILOT_HOME:-$HOME/.copilot}/skills/stitch-design-local`
+
+Native extension / plugin entrypoints:
+
+- GitHub Copilot: `.github/plugin/plugin.json`
+- Gemini CLI: `gemini-extension.json`
 
 ## Why not just use the raw SDK?
 
@@ -107,19 +127,31 @@ This repo is for when you want:
 In Codex:
 
 ```text
-Use $stitch-design-local to generate a premium desktop dashboard for an internal analytics product.
+Use $stitchflow to generate a premium desktop dashboard for an internal analytics product.
 ```
 
 In Claude Code:
 
 ```text
-/stitch-design-local landing page for a design tool aimed at enterprise product teams
+/stitchflow landing page for a design tool aimed at enterprise product teams
 ```
 
 In OpenClaw:
 
 ```text
-Use the stitch-design-local skill to explore three mobile-first UI directions for a checkout experience.
+Use the stitchflow skill to explore three mobile-first UI directions for a checkout experience.
+```
+
+In GitHub Copilot CLI:
+
+```bash
+copilot plugin install yshishenya/stitchflow
+```
+
+In Gemini CLI:
+
+```bash
+gemini extensions install https://github.com/yshishenya/stitchflow
 ```
 
 Direct CLI usage:
@@ -147,6 +179,7 @@ If you want to record a demo or launch video:
 
 - [docs/demo-script.md](./docs/demo-script.md)
 - [docs/launch-kit.md](./docs/launch-kit.md)
+- [docs/catalog-submissions.md](./docs/catalog-submissions.md)
 
 ## What gets saved
 
@@ -174,9 +207,16 @@ ${STITCH_STARTER_ROOT:-$HOME/.agents/stitch-starter}/runs/latest-screen.json
 
 - built on Google's [Stitch SDK](https://github.com/google-labs-code/stitch-sdk)
 - exports clean HTML and screenshots programmatically
-- works across Codex, Claude Code, and OpenClaw
-- includes [AGENTS.md](./AGENTS.md), [SKILL.md](./skills/stitch-design-local/SKILL.md), and agent-specific manifests
+- works across Codex, Claude Code, OpenClaw, GitHub Copilot, and Gemini CLI
+- includes [AGENTS.md](./AGENTS.md), [SKILL.md](./skills/stitchflow/SKILL.md), and agent-specific manifests
 - licensed under [Apache-2.0](./LICENSE)
+
+## Distribution channels
+
+- official OpenClaw registry path via ClawHub
+- official GitHub Copilot plugin install from the repository
+- official Gemini CLI extension install from the repository
+- community catalog checklist in [docs/catalog-submissions.md](./docs/catalog-submissions.md)
 
 ## Contributing
 
@@ -211,22 +251,35 @@ StitchFlow упаковывает Stitch в reusable skill для агента, 
 
 ## Что вы получаете
 
-- один канонический skill: `stitch-design-local`
+- один канонический skill: `stitchflow`
 - один локальный toolkit: `stitch-starter`
-- один installer для Codex, Claude Code и OpenClaw
+- один installer для Codex, Claude Code, OpenClaw и GitHub Copilot
 - локальные HTML, скриншоты и run artifacts
 - каноническую установку в `~/.agents` и compatibility links для нативных клиентов
 
 Канонические пути:
 
-- skill: `${AGENT_SKILLS_HOME:-$HOME/.agents}/skills/stitch-design-local`
+- skill: `${AGENT_SKILLS_HOME:-$HOME/.agents}/skills/stitchflow`
 - toolkit: `${STITCH_STARTER_ROOT:-$HOME/.agents/stitch-starter}`
 
 Compatibility links:
 
+- `${CODEX_HOME:-$HOME/.codex}/skills/stitchflow`
+- `${CLAUDE_HOME:-$HOME/.claude}/skills/stitchflow`
+- `${OPENCLAW_HOME:-$HOME/.openclaw}/skills/stitchflow`
+- `${COPILOT_HOME:-$HOME/.copilot}/skills/stitchflow`
+
+Legacy alias links после установки тоже создаются:
+
 - `${CODEX_HOME:-$HOME/.codex}/skills/stitch-design-local`
 - `${CLAUDE_HOME:-$HOME/.claude}/skills/stitch-design-local`
 - `${OPENCLAW_HOME:-$HOME/.openclaw}/skills/stitch-design-local`
+- `${COPILOT_HOME:-$HOME/.copilot}/skills/stitch-design-local`
+
+Нативные entrypoints:
+
+- GitHub Copilot: `.github/plugin/plugin.json`
+- Gemini CLI: `gemini-extension.json`
 
 ## Почему не просто raw SDK
 
@@ -259,19 +312,31 @@ ${STITCH_STARTER_ROOT:-$HOME/.agents/stitch-starter}/.env
 В Codex:
 
 ```text
-Use $stitch-design-local to generate a premium desktop dashboard for an internal analytics product.
+Use $stitchflow to generate a premium desktop dashboard for an internal analytics product.
 ```
 
 В Claude Code:
 
 ```text
-/stitch-design-local landing page for a design tool aimed at enterprise product teams
+/stitchflow landing page for a design tool aimed at enterprise product teams
 ```
 
 В OpenClaw:
 
 ```text
-Use the stitch-design-local skill to explore three mobile-first UI directions for a checkout experience.
+Use the stitchflow skill to explore three mobile-first UI directions for a checkout experience.
+```
+
+В GitHub Copilot CLI:
+
+```bash
+copilot plugin install yshishenya/stitchflow
+```
+
+В Gemini CLI:
+
+```bash
+gemini extensions install https://github.com/yshishenya/stitchflow
 ```
 
 Через CLI:
@@ -299,6 +364,7 @@ npm run variants -- --prompt "Explore three different visual directions" --varia
 
 - [docs/demo-script.md](./docs/demo-script.md)
 - [docs/launch-kit.md](./docs/launch-kit.md)
+- [docs/catalog-submissions.md](./docs/catalog-submissions.md)
 
 ## Что сохраняется
 
@@ -326,9 +392,16 @@ ${STITCH_STARTER_ROOT:-$HOME/.agents/stitch-starter}/runs/latest-screen.json
 
 - построен на [Google Stitch SDK](https://github.com/google-labs-code/stitch-sdk)
 - программно экспортирует HTML и screenshots
-- работает в Codex, Claude Code и OpenClaw
-- содержит [AGENTS.md](./AGENTS.md), [SKILL.md](./skills/stitch-design-local/SKILL.md) и platform manifests
+- работает в Codex, Claude Code, OpenClaw, GitHub Copilot и Gemini CLI
+- содержит [AGENTS.md](./AGENTS.md), [SKILL.md](./skills/stitchflow/SKILL.md) и platform manifests
 - лицензия: [Apache-2.0](./LICENSE)
+
+## Каналы дистрибуции
+
+- официальный реестр OpenClaw через ClawHub
+- официальный install GitHub Copilot plugin прямо из репозитория
+- официальный install Gemini CLI extension прямо из репозитория
+- чеклист по каталогам в [docs/catalog-submissions.md](./docs/catalog-submissions.md)
 
 ## Контрибьютинг
 

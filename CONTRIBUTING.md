@@ -24,7 +24,8 @@ Contributions should keep this repository:
 
 Make sure you understand the separation of responsibilities:
 
-- `skills/stitch-design-local/` contains the Codex skill definition and agent guidance
+- `skills/stitchflow/` contains the canonical skill definition and agent guidance
+- `skills/stitch-design-local/` contains the legacy alias for backward compatibility
 - `stitch-starter/` contains the executable local toolkit
 - `install.sh` is the supported installation path
 
@@ -97,11 +98,13 @@ TEST_AGENTS_HOME=/tmp/stitchflow-test-agents
 TEST_CODEX_HOME=/tmp/stitchflow-test-codex
 TEST_CLAUDE_HOME=/tmp/stitchflow-test-claude
 TEST_OPENCLAW_HOME=/tmp/stitchflow-test-openclaw
-rm -rf "$TEST_AGENTS_HOME" "$TEST_CODEX_HOME" "$TEST_CLAUDE_HOME" "$TEST_OPENCLAW_HOME"
+TEST_COPILOT_HOME=/tmp/stitchflow-test-copilot
+rm -rf "$TEST_AGENTS_HOME" "$TEST_CODEX_HOME" "$TEST_CLAUDE_HOME" "$TEST_OPENCLAW_HOME" "$TEST_COPILOT_HOME"
 AGENT_SKILLS_HOME="$TEST_AGENTS_HOME" \
 CODEX_HOME="$TEST_CODEX_HOME" \
 CLAUDE_HOME="$TEST_CLAUDE_HOME" \
 OPENCLAW_HOME="$TEST_OPENCLAW_HOME" \
+COPILOT_HOME="$TEST_COPILOT_HOME" \
 bash install.sh --target all
 ```
 
@@ -176,7 +179,8 @@ If a change affects the public installation flow, skill trigger behavior, or sec
 
 Важно понимать разделение ответственности:
 
-- `skills/stitch-design-local/` содержит сам skill и правила для агента
+- `skills/stitchflow/` содержит канонический skill и правила для агента
+- `skills/stitch-design-local/` содержит legacy alias для обратной совместимости
 - `stitch-starter/` содержит исполняемый локальный toolkit
 - `install.sh` является поддерживаемым способом установки
 
@@ -249,11 +253,13 @@ TEST_AGENTS_HOME=/tmp/stitchflow-test-agents
 TEST_CODEX_HOME=/tmp/stitchflow-test-codex
 TEST_CLAUDE_HOME=/tmp/stitchflow-test-claude
 TEST_OPENCLAW_HOME=/tmp/stitchflow-test-openclaw
-rm -rf "$TEST_AGENTS_HOME" "$TEST_CODEX_HOME" "$TEST_CLAUDE_HOME" "$TEST_OPENCLAW_HOME"
+TEST_COPILOT_HOME=/tmp/stitchflow-test-copilot
+rm -rf "$TEST_AGENTS_HOME" "$TEST_CODEX_HOME" "$TEST_CLAUDE_HOME" "$TEST_OPENCLAW_HOME" "$TEST_COPILOT_HOME"
 AGENT_SKILLS_HOME="$TEST_AGENTS_HOME" \
 CODEX_HOME="$TEST_CODEX_HOME" \
 CLAUDE_HOME="$TEST_CLAUDE_HOME" \
 OPENCLAW_HOME="$TEST_OPENCLAW_HOME" \
+COPILOT_HOME="$TEST_COPILOT_HOME" \
 bash install.sh --target all
 ```
 

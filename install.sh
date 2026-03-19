@@ -6,10 +6,10 @@ usage() {
 Usage: bash install.sh [options]
 
 Options:
-  --target <name>   Install target: all | universal | codex | claude | openclaw
-                    all: install canonical skill/toolkit plus links for Codex, Claude Code, and OpenClaw
+  --target <name>   Install target: all | universal | codex | claude | openclaw | copilot
+                    all: install canonical skill/toolkit plus native links for Codex, Claude Code, OpenClaw, and GitHub Copilot
                     universal: install only the canonical Agent Skills layout under ~/.agents
-                    codex|claude|openclaw: install the canonical layout plus one native compatibility link
+                    codex|claude|openclaw|copilot: install the canonical layout plus one native link set
   --force           Overwrite existing installed skill/toolkit
   --skip-npm        Skip npm install / npm ci in the toolkit
   --skip-smoke      Skip npm run list smoke test even if STITCH_API_KEY is set
@@ -80,7 +80,7 @@ while [[ $# -gt 0 ]]; do
 done
 
 case "$TARGET" in
-  all|universal|codex|claude|openclaw)
+  all|universal|codex|claude|openclaw|copilot)
     ;;
   *)
     echo "Invalid --target value: $TARGET" >&2
@@ -106,17 +106,26 @@ STITCH_STARTER_ROOT="${STITCH_STARTER_ROOT:-$AGENT_SKILLS_HOME/stitch-starter}"
 CODEX_HOME="${CODEX_HOME:-$HOME/.codex}"
 CLAUDE_HOME="${CLAUDE_HOME:-$HOME/.claude}"
 OPENCLAW_HOME="${OPENCLAW_HOME:-$HOME/.openclaw}"
+COPILOT_HOME="${COPILOT_HOME:-$HOME/.copilot}"
 
-SKILL_SRC="$REPO_ROOT/skills/stitch-design-local"
+CANONICAL_SKILL_SRC="$REPO_ROOT/skills/stitchflow"
+LEGACY_ALIAS_SKILL_SRC="$REPO_ROOT/skills/stitch-design-local"
 TOOLKIT_SRC="$REPO_ROOT/stitch-starter"
-CANONICAL_SKILL_DEST="$AGENT_SKILLS_HOME/skills/stitch-design-local"
+CANONICAL_SKILL_DEST="$AGENT_SKILLS_HOME/skills/stitchflow"
+LEGACY_ALIAS_SKILL_DEST="$AGENT_SKILLS_HOME/skills/stitch-design-local"
 TOOLKIT_DEST="$STITCH_STARTER_ROOT"
 
-CODEX_LINK="$CODEX_HOME/skills/stitch-design-local"
-CLAUDE_LINK="$CLAUDE_HOME/skills/stitch-design-local"
-OPENCLAW_LINK="$OPENCLAW_HOME/skills/stitch-design-local"
+CODEX_CANONICAL_LINK="$CODEX_HOME/skills/stitchflow"
+CLAUDE_CANONICAL_LINK="$CLAUDE_HOME/skills/stitchflow"
+OPENCLAW_CANONICAL_LINK="$OPENCLAW_HOME/skills/stitchflow"
+COPILOT_CANONICAL_LINK="$COPILOT_HOME/skills/stitchflow"
 
-if [[ ! -d "$SKILL_SRC" || ! -d "$TOOLKIT_SRC" ]]; then
+CODEX_LEGACY_LINK="$CODEX_HOME/skills/stitch-design-local"
+CLAUDE_LEGACY_LINK="$CLAUDE_HOME/skills/stitch-design-local"
+OPENCLAW_LEGACY_LINK="$OPENCLAW_HOME/skills/stitch-design-local"
+COPILOT_LEGACY_LINK="$COPILOT_HOME/skills/stitch-design-local"
+
+if [[ ! -d "$CANONICAL_SKILL_SRC" || ! -d "$LEGACY_ALIAS_SKILL_SRC" || ! -d "$TOOLKIT_SRC" ]]; then
   echo "Repository layout is invalid. Missing skill or toolkit source directory." >&2
   exit 1
 fi
@@ -124,16 +133,24 @@ fi
 declare -a LINK_DESTS=()
 case "$TARGET" in
   all)
-    LINK_DESTS+=("$CODEX_LINK" "$CLAUDE_LINK" "$OPENCLAW_LINK")
+    LINK_DESTS+=(
+      "$CODEX_CANONICAL_LINK" "$CODEX_LEGACY_LINK"
+      "$CLAUDE_CANONICAL_LINK" "$CLAUDE_LEGACY_LINK"
+      "$OPENCLAW_CANONICAL_LINK" "$OPENCLAW_LEGACY_LINK"
+      "$COPILOT_CANONICAL_LINK" "$COPILOT_LEGACY_LINK"
+    )
     ;;
   codex)
-    LINK_DESTS+=("$CODEX_LINK")
+    LINK_DESTS+=("$CODEX_CANONICAL_LINK" "$CODEX_LEGACY_LINK")
     ;;
   claude)
-    LINK_DESTS+=("$CLAUDE_LINK")
+    LINK_DESTS+=("$CLAUDE_CANONICAL_LINK" "$CLAUDE_LEGACY_LINK")
     ;;
   openclaw)
-    LINK_DESTS+=("$OPENCLAW_LINK")
+    LINK_DESTS+=("$OPENCLAW_CANONICAL_LINK" "$OPENCLAW_LEGACY_LINK")
+    ;;
+  copilot)
+    LINK_DESTS+=("$COPILOT_CANONICAL_LINK" "$COPILOT_LEGACY_LINK")
     ;;
   universal)
     ;;
@@ -141,11 +158,12 @@ esac
 
 mkdir -p "$AGENT_SKILLS_HOME/skills"
 
-if [[ -e "$CANONICAL_SKILL_DEST" || -e "$TOOLKIT_DEST" ]]; then
+if [[ -e "$CANONICAL_SKILL_DEST" || -e "$LEGACY_ALIAS_SKILL_DEST" || -e "$TOOLKIT_DEST" ]]; then
   if [[ "$FORCE" -ne 1 ]]; then
     echo "Destination already exists." >&2
     echo "Use --force to overwrite:" >&2
     echo "  $CANONICAL_SKILL_DEST" >&2
+    echo "  $LEGACY_ALIAS_SKILL_DEST" >&2
     echo "  $TOOLKIT_DEST" >&2
     exit 1
   fi
@@ -154,6 +172,7 @@ if [[ -e "$CANONICAL_SKILL_DEST" || -e "$TOOLKIT_DEST" ]]; then
     cp "$TOOLKIT_DEST/.env" "$ENV_BACKUP"
   fi
   safe_remove "$CANONICAL_SKILL_DEST"
+  safe_remove "$LEGACY_ALIAS_SKILL_DEST"
   safe_remove "$TOOLKIT_DEST"
 fi
 
@@ -168,7 +187,8 @@ for link_dest in "${LINK_DESTS[@]}"; do
   fi
 done
 
-copy_dir "$SKILL_SRC" "$CANONICAL_SKILL_DEST"
+copy_dir "$CANONICAL_SKILL_SRC" "$CANONICAL_SKILL_DEST"
+copy_dir "$LEGACY_ALIAS_SKILL_SRC" "$LEGACY_ALIAS_SKILL_DEST"
 copy_dir "$TOOLKIT_SRC" "$TOOLKIT_DEST"
 
 if [[ -n "$ENV_BACKUP" ]]; then
@@ -179,7 +199,11 @@ elif [[ ! -f "$TOOLKIT_DEST/.env" ]]; then
 fi
 
 for link_dest in "${LINK_DESTS[@]}"; do
-  create_link "$CANONICAL_SKILL_DEST" "$link_dest"
+  if [[ "$link_dest" == *"/stitch-design-local" ]]; then
+    create_link "$LEGACY_ALIAS_SKILL_DEST" "$link_dest"
+  else
+    create_link "$CANONICAL_SKILL_DEST" "$link_dest"
+  fi
 done
 
 if [[ "$SKIP_NPM" -ne 1 ]]; then
@@ -207,10 +231,11 @@ if [[ "$SKIP_SMOKE" -ne 1 ]]; then
 fi
 
 cat <<EOF
-Installed stitch local setup.
+Installed StitchFlow.
 
 Target: $TARGET
 Canonical skill: $CANONICAL_SKILL_DEST
+Legacy alias skill: $LEGACY_ALIAS_SKILL_DEST
 Toolkit: $TOOLKIT_DEST
 Node: $(node -v)
 NPM: $(npm -v)
@@ -221,13 +246,19 @@ $(if [[ "${#LINK_DESTS[@]}" -eq 0 ]]; then
     echo "  (none)"
   else
     for link_dest in "${LINK_DESTS[@]}"; do
-      echo "  $link_dest -> $CANONICAL_SKILL_DEST"
+      if [[ "$link_dest" == *"/stitch-design-local" ]]; then
+        echo "  $link_dest -> $LEGACY_ALIAS_SKILL_DEST"
+      else
+        echo "  $link_dest -> $CANONICAL_SKILL_DEST"
+      fi
     done
   fi)
 
 Next steps:
 1. Add STITCH_API_KEY to $TOOLKIT_DEST/.env if it is empty.
 2. Restart your agent client so it picks up the installed skill.
-3. Use the toolkit from:
+3. Use the canonical skill name: stitchflow
+4. Legacy alias still supported: stitch-design-local
+5. Use the toolkit from:
    cd "$TOOLKIT_DEST"
 EOF
