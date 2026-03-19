@@ -5,6 +5,13 @@
 
 This repository contains a reusable skill and local toolkit for generating and iterating UI screens with the official `@google/stitch-sdk`.
 
+Core value:
+
+- turn natural-language briefs into UI screens
+- iterate with edits and variants
+- save clean HTML and screenshots locally
+- reuse the same workflow across Codex, Claude Code, and OpenClaw
+
 ## Installation
 
 Canonical install:

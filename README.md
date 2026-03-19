@@ -6,7 +6,16 @@
 [![Claude Code](https://img.shields.io/badge/Anthropic-Claude%20Code-D97706)](https://code.claude.com/docs/en/slash-commands)
 [![OpenClaw](https://img.shields.io/badge/OpenClaw-ClawHub-2563EB)](https://docs.openclaw.ai/tools/clawhub)
 
-Cross-agent Stitch skill bundle for local UI generation and iteration with the official `@google/stitch-sdk`.
+> Now design can be programmed.
+
+`codex-stitch-local` turns Google's Stitch SDK into a ready-to-use agent skill for Codex, Claude Code, and OpenClaw.
+
+What it gives you:
+
+- prompt-to-UI generation from natural language
+- fast design iteration with edits and variants
+- local HTML, screenshots, and run artifacts
+- one install flow for multiple agent clients
 
 Работает как portable skill bundle для:
 
@@ -25,6 +34,17 @@ Core files:
 
 <details open>
 <summary><strong>English</strong></summary>
+
+## Why this exists
+
+The Stitch SDK is powerful, but raw SDK access is not yet a smooth day-to-day workflow for most teams.
+
+This repo solves that gap:
+
+- it packages Stitch as a reusable agent skill
+- it gives you a local toolkit with simple commands
+- it makes the setup portable across multiple agent clients
+- it saves outputs locally so design exploration becomes part of the real dev workflow
 
 ## What it is
 
@@ -167,6 +187,17 @@ ${STITCH_STARTER_ROOT:-$HOME/.agents/stitch-starter}/runs/latest-screen.json
 
 <details>
 <summary><strong>Русский</strong></summary>
+
+## Зачем это нужно
+
+Сам Stitch SDK мощный, но в сыром виде это еще не очень удобный ежедневный workflow для команды.
+
+Этот репозиторий закрывает именно этот разрыв:
+
+- упаковывает Stitch в reusable skill для агента
+- дает простой локальный toolkit с понятными командами
+- делает setup переносимым между несколькими агентными клиентами
+- сохраняет HTML, скриншоты и run artifacts локально, чтобы дизайн стал частью реального dev-процесса
 
 ## Что это
 
