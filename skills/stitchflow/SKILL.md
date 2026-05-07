@@ -1,14 +1,14 @@
 ---
 name: stitchflow
 slug: stitchflow
-version: 1.3.0
+version: 1.3.1
 description: Turn briefs, mockups, and product context into Stitch UI screens, design variants, Tailwind-friendly HTML, and screenshots. Use when the user wants to explore a new screen, edit an existing screen, compare visual directions, or save local design artifacts from natural-language input.
 homepage: "https://github.com/yshishenya/stitchflow"
 category: "design"
 platforms: "codex, claude-code, openclaw, github-copilot, gemini-cli"
 install: "bash install.sh --target all"
 toolkit_root: "${STITCH_STARTER_ROOT:-$HOME/.agents/stitch-starter}"
-compatibility: "Requires Node.js 22+, a configured STITCH_API_KEY, and the local stitch-starter toolkit installed by this repository."
+compatibility: "Requires Node.js 22+, a configured STITCH_API_KEY, and either native Stitch MCP tools or the local stitch-starter toolkit installed by this repository."
 legacy_aliases: "stitch-design-local"
 ---
 
@@ -16,7 +16,7 @@ legacy_aliases: "stitch-design-local"
 
 Use this skill when the user wants to create a new screen, refine an existing one, generate design variants, or export local HTML and screenshots through Stitch.
 
-It uses the local toolkit at `${STITCH_STARTER_ROOT:-$HOME/.agents/stitch-starter}` instead of a Stitch MCP tool.
+It prefers native Stitch MCP tools when they are available in the current agent session, and falls back to the local toolkit at `${STITCH_STARTER_ROOT:-$HOME/.agents/stitch-starter}` when they are not.
 
 ## Local setup
 
@@ -24,6 +24,23 @@ It uses the local toolkit at `${STITCH_STARTER_ROOT:-$HOME/.agents/stitch-starte
 - API key is expected in `${STITCH_STARTER_ROOT:-$HOME/.agents/stitch-starter}/.env`
 - Outputs are saved to `${STITCH_STARTER_ROOT:-$HOME/.agents/stitch-starter}/runs`
 - The latest single-screen result is tracked in `${STITCH_STARTER_ROOT:-$HOME/.agents/stitch-starter}/runs/latest-screen.json`
+
+## Native MCP setup
+
+If the current client exposes Stitch MCP tools such as `create_project`, `generate_screen_from_text`, `generate_variants`, and `get_screen`, use those tools first. Native MCP avoids local SDK transport issues and is the most reliable path in Codex after the client has been restarted with the Stitch MCP server configured.
+
+For Codex, a minimal MCP config looks like this:
+
+```toml
+[mcp_servers.stitch]
+url = "https://stitch.googleapis.com/mcp"
+enabled = true
+
+[mcp_servers.stitch.http_headers]
+"X-Goog-Api-Key" = "<your Stitch API key>"
+```
+
+Restart the client after changing MCP config so the `stitch` tools are loaded into the session.
 
 ## When to use
 
@@ -51,6 +68,7 @@ It uses the local toolkit at `${STITCH_STARTER_ROOT:-$HOME/.agents/stitch-starte
 5. If a screen is already close, prefer `edit` over full regeneration.
 6. Always tell the user where the resulting files were saved.
 7. Never print or expose `STITCH_API_KEY` or `.env` contents.
+8. When native MCP returns `downloadUrl` values, save the HTML and screenshot locally into the normal `runs/` artifact layout before reporting completion.
 
 ## What good output looks like
 

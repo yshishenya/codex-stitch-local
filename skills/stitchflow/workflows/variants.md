@@ -16,7 +16,13 @@ description: Generate multiple visual directions from a base Stitch screen using
 - text tone
 - typography
 
-3. Run:
+3. If native Stitch MCP tools are available in the current session, prefer `generate_variants`:
+   - pass `projectId`, `selectedScreenIds`, prompt, device type, and variant options;
+   - if the tool schema says `variantOptions` is a string but the first call fails with `invalid argument`, retry once with the same value as a JSON object;
+   - save each returned variant into `runs/<timestamp>-variants-<slug>/variant-N/` with `result.json`, `html-url.txt`, `image-url.txt`, downloaded `screen.html`, and downloaded `screen.<image-ext>`;
+   - write a parent `variants.json` file and update `runs/latest-screen.json` to the first returned variant.
+
+4. If native Stitch MCP tools are not available, run:
 
 ```bash
 cd "${STITCH_STARTER_ROOT:-$HOME/.agents/stitch-starter}"
@@ -30,7 +36,7 @@ Optional:
 --aspects LAYOUT,COLOR_SCHEME,IMAGES,TEXT_FONT,TEXT_CONTENT
 ```
 
-4. Review the saved variant folders and summarize:
+5. Review the saved variant folders and summarize:
 - what changed in each direction
 - which variant is strongest
 - which one should be edited next

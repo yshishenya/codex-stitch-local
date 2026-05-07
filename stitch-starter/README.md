@@ -2,6 +2,8 @@
 
 Minimal local starter for the official `@google/stitch-sdk`.
 
+If your agent client exposes native Stitch MCP tools, prefer those tools for generation and variants. Use this local starter as the portable fallback path and artifact downloader.
+
 ## Setup
 
 ```bash
@@ -42,6 +44,21 @@ List available projects and screens:
 ```bash
 npm run list
 ```
+
+## Codex MCP setup
+
+Codex can call Stitch directly when the MCP server is configured. Add the server to `~/.codex/config.toml` and restart Codex:
+
+```toml
+[mcp_servers.stitch]
+url = "https://stitch.googleapis.com/mcp"
+enabled = true
+
+[mcp_servers.stitch.http_headers]
+"X-Goog-Api-Key" = "<your Stitch API key>"
+```
+
+After restart, Codex should expose Stitch tools such as `create_project`, `generate_screen_from_text`, `generate_variants`, and `get_screen`.
 
 ## Output
 
