@@ -8,21 +8,27 @@ description: Generate a new Stitch screen from a brief using the local starter t
 
 1. Read the user's brief and, if relevant, inspect the current project for style, layout, and component patterns.
 2. Rewrite the brief into a structured Stitch prompt using [prompt-keywords](../references/prompt-keywords.md).
-3. If the user named a Stitch project, use it. Otherwise create or reuse a suitable project by calling:
+3. If native Stitch MCP tools are available in the current session, prefer them:
+   - use `create_project` unless the user named an existing project;
+   - call `generate_screen_from_text` with the project id, prompt, and device type;
+   - save the returned `htmlCode.downloadUrl` and `screenshot.downloadUrl` into the normal local `runs/` layout;
+   - write `result.json`, `html-url.txt`, `image-url.txt`, downloaded `screen.html`, downloaded `screen.<image-ext>`, and `runs/latest-screen.json`.
+
+4. If native Stitch MCP tools are not available, use the local toolkit. If the user named a Stitch project, use it. Otherwise create or reuse a suitable project by calling:
 
 ```bash
 cd "${STITCH_STARTER_ROOT:-$HOME/.agents/stitch-starter}"
 npm run list
 ```
 
-4. Generate the screen:
+5. Generate the screen:
 
 ```bash
 cd "${STITCH_STARTER_ROOT:-$HOME/.agents/stitch-starter}"
 npm run generate -- --prompt "..." [--project-id ...] [--device DESKTOP]
 ```
 
-5. Read the output folder path from the command result and report back:
+6. Read the output folder path from the command result and report back:
 - project id
 - screen id
 - saved folder

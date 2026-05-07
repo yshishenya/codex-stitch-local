@@ -1,5 +1,7 @@
 # Local CLI Usage
 
+Prefer native Stitch MCP tools when the current client exposes them. Use these local CLI commands as the fallback path when MCP tools are unavailable, or when a user explicitly asks to run the local toolkit.
+
 All commands run from:
 
 ```bash
@@ -73,3 +75,22 @@ The most recent single-screen result is tracked in:
 ```text
 ${STITCH_STARTER_ROOT:-$HOME/.agents/stitch-starter}/runs/latest-screen.json
 ```
+
+## Native MCP artifact layout
+
+When using native Stitch MCP tools, mirror the same local output layout manually:
+
+```text
+${STITCH_STARTER_ROOT:-$HOME/.agents/stitch-starter}/runs/<timestamp>-generate-<slug>/
+${STITCH_STARTER_ROOT:-$HOME/.agents/stitch-starter}/runs/<timestamp>-variants-<slug>/variant-1/
+```
+
+For each screen, save:
+
+- `result.json`
+- `screen.html`
+- `screen.png` or `screen.jpeg`
+- `html-url.txt`
+- `image-url.txt`
+
+Use `curl --location --retry 4 --retry-all-errors` for `downloadUrl` values if plain Node `fetch` times out.

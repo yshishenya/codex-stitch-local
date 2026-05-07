@@ -106,6 +106,7 @@ Expected first output:
 - local HTML, screenshots, and run artifacts
 - variants and edits from natural-language prompts
 - installable packaging across multiple agent clients
+- native Stitch MCP workflow support when the client exposes Stitch tools directly
 
 <details open>
 <summary><strong>English</strong></summary>
@@ -212,6 +213,19 @@ npm run generate -- --prompt "A modern SaaS dashboard with sidebar and stat card
 npm run edit -- --prompt "Make it more premium and add stronger typography"
 npm run variants -- --prompt "Explore three different visual directions" --variant-count 3
 ```
+
+Codex MCP usage:
+
+```toml
+[mcp_servers.stitch]
+url = "https://stitch.googleapis.com/mcp"
+enabled = true
+
+[mcp_servers.stitch.http_headers]
+"X-Goog-Api-Key" = "<your Stitch API key>"
+```
+
+Restart Codex after adding the MCP server. When native Stitch tools are available, StitchFlow uses them first and saves the returned HTML/screenshots into the same local `runs/` artifact layout.
 
 ## Results you can get fast
 
@@ -399,6 +413,19 @@ npm run generate -- --prompt "A modern SaaS dashboard with sidebar and stat card
 npm run edit -- --prompt "Make it more premium and add stronger typography"
 npm run variants -- --prompt "Explore three different visual directions" --variant-count 3
 ```
+
+Через Codex MCP:
+
+```toml
+[mcp_servers.stitch]
+url = "https://stitch.googleapis.com/mcp"
+enabled = true
+
+[mcp_servers.stitch.http_headers]
+"X-Goog-Api-Key" = "<your Stitch API key>"
+```
+
+После изменения конфига перезапустите Codex. Если нативные Stitch tools доступны, StitchFlow использует их первым путем и сохраняет HTML/скриншоты в тот же локальный `runs/` layout.
 
 ## Что можно сделать быстро
 
